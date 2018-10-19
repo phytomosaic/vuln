@@ -5,21 +5,22 @@ Authors@R: person("Robert", "Smith", email = "smithr2@oregonstate.edu", role = c
 Description: Metrics of niche-based vulnerability for single species and multi-species communities in a spatial context.
 License: GPL (>= 3) + file LICENSE
 URL: https://github.com/phytomosaic/vuln
-Depends: ecole,
-    vegan,
+Depends: 
+    ecole,
+    viridis,
     raster,
+    R (>= 3.5.0)
+Imports: 
+    vegan,
     sp,
     ks,
-    viridis,
     rgl,
     reshape,
     plyr,
     ggplot2,
     grid,
-    maps,
-    R (>= 3.5.0)
-Imports: 
     gridExtra,
+    maps,
     mapproj
 Encoding: UTF-8
 LazyData: true

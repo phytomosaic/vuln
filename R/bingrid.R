@@ -47,7 +47,8 @@
 #' # (mmap(x, 'Sepal.Length', alpha=1, name='Sepal length'))
 #' bin_sepal <- bingrid(x, nr=30, nc=50, field='Sepal.Length',
 #'                      xmn=-125,xmx=-75,ymn=20,ymx=55)
-#' r <- raster::raster(nrows=30,ncols=50,xmn=-125,xmx=-75,ymn=20,ymx=55)
+#' r <- raster(nrows=30, ncols=50,
+#'                     xmn=-125, xmx=-75, ymn=20, ymx=55)
 #' r[] <- 0
 #' s <- stack(r,r,r)
 #' for (i in 1:3){ s[[i]][] <- bin_sepal[[i]] }
@@ -75,6 +76,6 @@
           .progress='text',
           .drop=F)
      out <- data.frame(t(plyr::laply(L, .fun=raster::getValues)))
-     class(out) <- 'bingrid'
+     class(out) <- c(class(out), 'bingrid')
      out
 }

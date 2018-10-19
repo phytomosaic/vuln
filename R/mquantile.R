@@ -59,9 +59,9 @@
 #' @rdname mquantile
 ###   conditional CDF: percentiles of an EPDF across 1-6 dimensions
 `cond_cdf` <- function(x, pltype, ngrid, ...){
-     if(!is.data.frame(x)) x <- as.data.frame(x)
+     if (!is.data.frame(x)) x <- as.data.frame(x)
      na <- anyNA(x)
-     if(na){
+     if (na){
           nr <- nrow(x)
           x  <- na.omit(x)
           ix <- attr(x, 'na.action')
@@ -69,14 +69,14 @@
      }
      nc <- dim(x)[[2]]
      pp <- c('none','cdf','pairs','rgl','persp')
-     if(missing(pltype)) {
+     if (missing(pltype)) {
           pltype <- 'none'
      } else {
           pltype <- pp[pmatch(pltype, pp)]
      }
-     if(pltype=='persp' & nc==2){
-          if(missing(ngrid))  ngrid <- 44
-          f <- kde(x=x, gridsize=ngrid) # fits across uniform grid
+     if (pltype=='persp' & nc==2){
+          if (missing(ngrid))  ngrid <- 44
+          f <- ks::kde(x=x, gridsize=ngrid)
           persp(f$estimate,
                 xlab=f$names[1],
                 ylab=f$names[2],
@@ -84,13 +84,13 @@
                 col=ecole::surfcol(f$estimate, ngrid=ngrid, ...), ...)
           return(NULL)
      }
-     if(pltype=='persp' & nc>2){
+     if (pltype=='persp' & nc>2){
           message('more than 2 columns, using `pairs` not `persp`')
           pltype <- 'pairs'
      }
-     f <- kde(x=x, eval.points=x)  # EPDF of orig pts
+     f <- ks::kde(x=x, eval.points=x)  # EPDF of orig pts
      z <- f$estimate               # density values of raw data
-     if(na){                       # put values in appropriate rows
+     if (na){                       # put values in appropriate rows
           v  <- vector('numeric', nr)
           v[ 1:nr %in% ix] <- NA
           v[!1:nr %in% ix] <- z
@@ -103,67 +103,67 @@
      p <- e(z)      # %iles of the *DENSITY* values! (not raw data)
      p <- (1-p)     # take complement (higher values more 'extreme')
      o <- cbind(f$eval.points, den=z, p=p)
-     if(pltype=='none'){
+     if (pltype=='none'){
           return(o)
      }
      ccc <- ecole::colvec(p, ...)
-     if(pltype=='cdf'){
+     if (pltype=='cdf'){
           plot(z, p, pch=16, col=ccc, bty='l',
                las=1, xlab='Density values',
                ylab='Joint percentile of density values ')
      }
-     if(pltype=='rgl' & nc==3){
+     if (pltype=='rgl' & nc==3){
           rgl::plot3d(o[,1], o[,2], o[,3], pch=16, size=10, col=ccc,
                       xlab=f$names[1], ylab=f$names[2],
                       zlab=f$names[3], box=F)
      } else {
-          if(pltype=='rgl' & nc!=3){
+          if (pltype=='rgl' & nc!=3){
                cat('`rgl` needs 3 columns, plotting `pairs` instead')
                pltype <- 'pairs'
           }
      }
-     if(pltype=='pairs' & nc>2){
+     if (pltype=='pairs' & nc>2){
           pairs(f$eval.points, upper.panel=NULL, pch=16, col=ccc, ...)
      }else{
-          if(pltype=='pairs' & nc==2){
+          if (pltype=='pairs' & nc==2){
                plot(f$eval.points, pch=16, col=ccc, ...)
           }
      }
 }
 #' @export
 #' @rdname mquantile
-###   joint CDF: over ALL dimensions simultaneously, for 1-3 dimensions
+###   joint CDF: over ALL dimensions simultaneously for 1-3 dimensions
 `joint_cdf` <- function(x, pltype, ngrid, ...){
-     if(!is.data.frame(x)) x <- as.data.frame(x)
+     if (!is.data.frame(x)) x <- as.data.frame(x)
      nc <- dim(x)[[2]]
-     if(nc > 3) stop('only works for 1-3 dimensions')
+     if (nc > 3) stop('only works for 1-3 dimensions')
      na <- anyNA(x)
-     if(na){
+     if (na){
           nr <- nrow(x)
           x  <- na.omit(x)
           ix <- attr(x, 'na.action')
           cat(length(ix), 'NA rows were removed!')
      }
      pp <- c('none','cdf','pairs','rgl','persp')
-     if(missing(pltype)) {
+     if (missing(pltype)) {
           pltype <- 'none'
      } else {
           pltype <- pp[pmatch(pltype, pp)]
      }
-     if(pltype=='persp' & nc==2){
-          if(missing(ngrid))  ngrid <- 44
-          f <- kcde(x=x, gridsize=ngrid)# fits across uniform grid
+     if (pltype=='persp' & nc==2){
+          if (missing(ngrid))  ngrid <- 44
+          f <- ks::kcde(x=x, gridsize=ngrid)
           persp(f$estimate,
                 col=ecole::surfcol(f$estimate, ngrid=ngrid, ...), ...)
           return(NULL)
      }
-     if(pltype=='persp' & nc>2){
+     if (pltype=='persp' & nc>2){
           message('more than 2 columns, using `pairs` not `persp`')
           pltype <- 'pairs'
      }
-     f <- kcde(x=x, eval.points=x) # ECDF of orig pts
+     f <- ks::kcde(x=x, eval.points=x)
      p <- f$estimate  # %iles of raw data, higher values more extreme
-     if(na){                       # put values in appropriate rows
+     if (na){                       # put values in appropriate rows
           v  <- vector('numeric', nr)
           v[ 1:nr %in% ix] <- NA
           v[!1:nr %in% ix] <- p
@@ -173,11 +173,11 @@
           f$eval.points <- as.data.frame(m)
      }
      o <- cbind(f$eval.points, p=p)
-     if(pltype=='none'){
+     if (pltype=='none'){
           return(o)
      }
      ccc <- ecole::colvec(p, ...)
-     if(pltype=='cdf'){
+     if (pltype=='cdf'){
           auto_rowcol <- function(n = nc) {
                if (n <= 3)
                     c(1, n)
@@ -194,20 +194,20 @@
           }
           par(op)
      }
-     if(pltype=='rgl' & nc==3){
+     if (pltype=='rgl' & nc==3){
           rgl::plot3d(o[,1],o[,2],o[,3], pch=16, size=10, col=ccc,
                       xlab=f$names[1], ylab=f$names[2],
                       zlab=f$names[3], box=F)
      } else {
-          if(pltype=='rgl' & nc!=3){
+          if (pltype=='rgl' & nc!=3){
                cat('`rgl` needs 3 columns, plotting `pairs` instead')
                pltype <- 'pairs'
           }
      }
-     if(pltype=='pairs' & nc>2){
+     if (pltype=='pairs' & nc>2){
           pairs(f$eval.points, upper.panel=NULL, pch=16, col=ccc, ...)
      }else{
-          if(pltype=='pairs' & nc==2){
+          if (pltype=='pairs' & nc==2){
                plot(f$eval.points, pch=16, col=ccc, ...)
           }
      }

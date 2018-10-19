@@ -26,8 +26,8 @@ which explanatory variables y should be `inverted` (e.g., low
 moisture = high vulnerability). Defaults to
 \code{rep(FALSE, NCOL(y))}.}
 
-\item{na.rm}{logical, indicating whether NA values should be
-stripped before computation.}
+\item{na.rm}{logical, indicating whether to strip NA values before
+computation. Default is \code{na.rm = TRUE}}
 
 \item{fullinfo}{logical, default \code{fullinfo=TRUE} propagates
 any \code{NA} cases that occur in any \code{y} variable;
@@ -50,19 +50,17 @@ Multidimensional vulnerability index, using truncated or extended
 \examples{
 \dontrun{
 # VI from 'truncated' niches based on point FIA data
-v1 <- vuln(spe, y=id$mwmt, na.rm=T)
-v2 <- vuln(spe, y=id$cmd,  na.rm=T)
-v3 <- vuln(spe, y=id$fire, na.rm=T)
-v4 <- vuln(spe, y = cbind(mwmt=id$mwmt,cmd=id$cmd,fire=id$fire),
-           na.rm = T)
+v1 <- vuln(spe, y=id$mwmt)
+v2 <- vuln(spe, y=id$cmd)
+v3 <- vuln(spe, y=id$fire)
+v4 <- vuln(spe, y = cbind(mwmt=id$mwmt,cmd=id$cmd,fire=id$fire))
 # VI from 'extended' niches based on rasterized CNALH herb. data
-v1 <- vuln(spe, y=id$mwmt,  ybin=m_mwmt, na.rm=T)
-v2 <- vuln(spe, y=id$cmd,   ybin=m_cmd,  na.rm=T)
-v3 <- vuln(spe, y=id$fire,  ybin=m_fire, na.rm=T)
+v1 <- vuln(spe, y=id$mwmt, ybin=m_mwmt)
+v2 <- vuln(spe, y=id$cmd,  ybin=m_cmd)
+v3 <- vuln(spe, y=id$fire, ybin=m_fire)
 v4 <- vuln(spe,
            y = cbind(mwmt=id$mwmt,cmd=id$cmd,fire=id$fire),
-           ybin = list(mwmt=m_mwmt, cmd=m_cmd, fire=m_fire),
-           na.rm = T)
+           ybin = list(mwmt=m_mwmt, cmd=m_cmd, fire=m_fire))
 plot(gv(v1,1), gv(v2,1))
 }
 }

@@ -51,6 +51,8 @@
 #' (mmap(x, 'Sepal.Length', alpha=1, name='Sepal length'))
 #' (dmap(x, 'Sepal.Big',  name='Sepal > 6 mm'))
 #'
+#'
+#' @import ggplot2
 #' @export
 #' @rdname mmap
 ### plot regional maps (continuous values)

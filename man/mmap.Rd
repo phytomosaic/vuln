@@ -64,4 +64,5 @@ x <- data.frame(x,
 (mmap(x, 'Sepal.Length', alpha=1, name='Sepal length'))
 (dmap(x, 'Sepal.Big',  name='Sepal > 6 mm'))
 
+
 }

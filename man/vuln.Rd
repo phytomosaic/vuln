@@ -48,19 +48,20 @@ Multidimensional vulnerability index, using truncated or extended
     niches.
 }
 \examples{
-\dontrun{
-# VI from 'truncated' niches based on point FIA data
-v1 <- vuln(spe, y=id$mwmt)
-v2 <- vuln(spe, y=id$cmd)
-v3 <- vuln(spe, y=id$fire)
-v4 <- vuln(spe, y = cbind(mwmt=id$mwmt,cmd=id$cmd,fire=id$fire))
-# VI from 'extended' niches based on rasterized CNALH herb. data
-v1 <- vuln(spe, y=id$mwmt, ybin=m_mwmt)
-v2 <- vuln(spe, y=id$cmd,  ybin=m_cmd)
-v3 <- vuln(spe, y=id$fire, ybin=m_fire)
-v4 <- vuln(spe,
-           y = cbind(mwmt=id$mwmt,cmd=id$cmd,fire=id$fire),
-           ybin = list(mwmt=m_mwmt, cmd=m_cmd, fire=m_fire))
-plot(gv(v1,1), gv(v2,1))
-}
+## Load data
+#     require(vuln)
+#     require(ecole)
+data(braun, package='ecole')
+spe <- braun$spe
+env <- braun$env
+## Vulnerability estimates
+v <- vuln(spe, y=env$bio1) # w/o bingrid, may be 'truncated' niche
+## Mapping
+d <- data.frame(env, t1 = gv(v,1), t2 = gv(v,2), t3 = gv(v,3))
+ecole::set_par(4)
+plot(d$lat, d$lon, col=ecole::colvec(d$bio1), pch=16, main='bio1')
+plot(d$lat, d$lon, col=ecole::colvec(d$t1),   pch=16, main='t1')
+plot(d$lat, d$lon, col=ecole::colvec(d$t2),   pch=16, main='t2')
+plot(d$lat, d$lon, col=ecole::colvec(d$t3),   pch=16, main='t3')
+
 }

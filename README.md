@@ -28,6 +28,7 @@ Get some spatial data, with species and environment:
 ```r
 require(vuln)
 require(ecole)
+data(braun)
 spe <- braun$spe
 env <- braun$env
 ```

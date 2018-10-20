@@ -59,7 +59,8 @@
 #' @rdname mquantile
 ###   conditional CDF: percentiles of an EPDF across 1-6 dimensions
 `cond_cdf` <- function(x, pltype, ngrid, ...){
-     if (!is.data.frame(x)) x <- as.data.frame(x)
+     # if (!is.data.frame(x)) x <- as.data.frame(x)
+     if (!is.matrix(x)) x <- as.matrix(x)
      na <- anyNA(x)
      if (na){
           nr <- nrow(x)
@@ -77,12 +78,10 @@
      if (pltype=='persp' & nc==2){
           if (missing(ngrid))  ngrid <- 44
           f <- ks::kde(x=x, gridsize=ngrid)
-          persp(f$estimate,
-                xlab=f$names[1],
-                ylab=f$names[2],
+          persp(f$estimate, xlab=f$names[1], ylab=f$names[2],
                 zlab='Prob. density',
                 col=ecole::surfcol(f$estimate, ngrid=ngrid, ...), ...)
-          return(NULL)
+          invisible(NULL)
      }
      if (pltype=='persp' & nc>2){
           message('more than 2 columns, using `pairs` not `persp`')
@@ -102,7 +101,7 @@
      e <- ecdf(z)   # ECDF  of the *DENSITY* values! (not raw data)
      p <- e(z)      # %iles of the *DENSITY* values! (not raw data)
      p <- (1-p)     # take complement (higher values more 'extreme')
-     o <- cbind(f$eval.points, den=z, p=p)
+     o <- as.data.frame(cbind(f$eval.points, den=z, p=p))
      if (pltype=='none'){
           return(o)
      }
@@ -125,7 +124,7 @@
      if (pltype=='pairs' & nc>2){
           pairs(f$eval.points, upper.panel=NULL, pch=16, col=ccc, ...)
      }else{
-          if (pltype=='pairs' & nc==2){
+          if (pltype=='pairs' & nc<=2){
                plot(f$eval.points, pch=16, col=ccc, ...)
           }
      }
@@ -134,7 +133,8 @@
 #' @rdname mquantile
 ###   joint CDF: over ALL dimensions simultaneously for 1-3 dimensions
 `joint_cdf` <- function(x, pltype, ngrid, ...){
-     if (!is.data.frame(x)) x <- as.data.frame(x)
+     # if (!is.data.frame(x)) x <- as.data.frame(x)
+     if (!is.matrix(x)) x <- as.matrix(x)
      nc <- dim(x)[[2]]
      if (nc > 3) stop('only works for 1-3 dimensions')
      na <- anyNA(x)
@@ -172,7 +172,7 @@
           m[!1:nr %in% ix, ] <- as.matrix(f$eval.points)
           f$eval.points <- as.data.frame(m)
      }
-     o <- cbind(f$eval.points, p=p)
+     o <- as.data.frame(cbind(f$eval.points, p=p))
      if (pltype=='none'){
           return(o)
      }
@@ -207,7 +207,7 @@
      if (pltype=='pairs' & nc>2){
           pairs(f$eval.points, upper.panel=NULL, pch=16, col=ccc, ...)
      }else{
-          if (pltype=='pairs' & nc==2){
+          if (pltype=='pairs' & nc<=2){
                plot(f$eval.points, pch=16, col=ccc, ...)
           }
      }

@@ -31,13 +31,13 @@ Where:\cr
      EPDF = empirical probability distribution function (density),
      and\cr
      ECDF = empirical cumulative distribution function;\cr\cr
-     Then three possible multivariate quantiles are:\cr
+     Then three possible multivariate quantiles are:\cr\cr
      [1] Marginal quantile: from ECDF of raw data for EACH axis
      independently (so yields m separate vectors each of length
-     n).\cr
+     n).\cr\cr
      [2] Joint quantile: from ECDF of raw data across ALL m axes
      simultaneously (so yields 1 vector of length n); always
-     monotonically increasing toward higher axis values.\cr
+     monotonically increasing toward higher axis values.\cr\cr
      [3] Conditional quantile: from the ECDF of the EPDF of ALL m
      axes simultaneously (so yields 1 vector of length n);
      monotonically increasing toward lower \emph{density} values,

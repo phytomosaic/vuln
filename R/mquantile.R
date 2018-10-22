@@ -66,7 +66,7 @@
           nr <- nrow(x)
           x  <- na.omit(x)
           ix <- attr(x, 'na.action')
-          cat(length(ix), 'NA rows were removed!')
+          # cat(length(ix), 'NA rows were removed!\n')
      }
      nc <- dim(x)[[2]]
      pp <- c('none','cdf','pairs','rgl','persp')
@@ -109,7 +109,7 @@
      if (pltype=='cdf'){
           plot(z, p, pch=16, col=ccc, bty='l',
                las=1, xlab='Density values',
-               ylab='Joint percentile of density values ')
+               ylab='Joint percentile of\ndensity values ')
      }
      if (pltype=='rgl' & nc==3){
           rgl::plot3d(o[,1], o[,2], o[,3], pch=16, size=10, col=ccc,
@@ -142,7 +142,7 @@
           nr <- nrow(x)
           x  <- na.omit(x)
           ix <- attr(x, 'na.action')
-          cat(length(ix), 'NA rows were removed!')
+          # cat(length(ix), 'NA rows were removed!')
      }
      pp <- c('none','cdf','pairs','rgl','persp')
      if (missing(pltype)) {

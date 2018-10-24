@@ -82,6 +82,8 @@
                if(!identical(dimnames(y)[[2]],names(ybin)))
                     stop('verify colnames identical for `ybin`, `y`')
           }
+     } else {
+          message('no `ybin` given, niche may be truncated')
      }
 
      ### initialize arrays

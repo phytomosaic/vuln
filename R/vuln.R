@@ -95,7 +95,10 @@
           a <- a[,j]
           b <- b[,j]
           if( all(is.na(a)) |  all(is.na(b))  ){
-               cat('no info for variable',jj,'species',j,'\n')
+               message(
+                    paste0('no info for variable ', jj,
+                           ', species',j,'\n'))
+
                rep(NA, times=length(b))
           } else {
                ecdf(a)(b)
@@ -107,17 +110,17 @@
           v[,,jj] <- tmp * c(y[,jj])    # y vals at occupied sites
           if(missing(ybin)){
                vest <- v[,,jj]          # y vals for niche estimate
-               cat(paste0('ECDF is from pointwise data: ',
-                          nr, ' sites, ', nc ,' species\n'))
+               message(paste0('ECDF is from pointwise data: ',
+                              nr, ' sites, ', nc ,' species\n'))
           } else {
                vest <- f.as.matrix(ybin[[jj]]) # y vals for niche est
                nrb <- nrow(vest)
                ncb <- ncol(vest)
-               if(nc!=ncb)stop('incompatible dims: `spe` and `ybin`')
-               cat(paste0('ECDF is from rasterized data: ',
-                          nrb, ' sites, ',ncb,' species\n'))
+               if(nc!=ncb) stop('incompatible dims: `spe` and `ybin`')
+               message(paste0('ECDF is from rasterized data: ',
+                              nrb, ' sites, ',ncb,' species\n'))
           }
-          cat(' variable', jj, 'of', ncy, '\n')
+          message(paste0('  variable ', jj, ' of ', ncy, '\n'))
           pp[,,jj] <- sapply(1:nc, FUN=percentile, a=vest, b=v[,,jj])
      }
 

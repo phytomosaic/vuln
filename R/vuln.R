@@ -82,8 +82,6 @@
                if(!identical(dimnames(y)[[2]],names(ybin)))
                     stop('verify colnames identical for `ybin`, `y`')
           }
-     } else {
-          message('no `ybin` given, niche may be truncated')
      }
 
      ### initialize arrays
@@ -110,17 +108,19 @@
           v[,,jj] <- tmp * c(y[,jj])    # y vals at occupied sites
           if(missing(ybin)){
                vest <- v[,,jj]          # y vals for niche estimate
-               message(paste0('ECDF is from pointwise data: ',
-                              nr, ' sites, ', nc ,' species\n'))
+               message(paste0('ECDF from pointwise data: ',
+                              nr, ' sites, ', nc ,
+                              ' species. Niche may be truncated.'))
           } else {
                vest <- f.as.matrix(ybin[[jj]]) # y vals for niche est
                nrb <- nrow(vest)
                ncb <- ncol(vest)
                if(nc!=ncb) stop('incompatible dims: `spe` and `ybin`')
-               message(paste0('ECDF is from rasterized data: ',
-                              nrb, ' sites, ',ncb,' species\n'))
+               message(paste0('ECDF from rasterized data: ',
+                              nrb, ' sites, ', ncb,
+                              ' species. Niche is extended.'))
           }
-          message(paste0('  variable ', jj, ' of ', ncy, '\n'))
+          message(paste0(' variable ', jj, ' of ', ncy))
           pp[,,jj] <- sapply(1:nc, FUN=percentile, a=vest, b=v[,,jj])
      }
 

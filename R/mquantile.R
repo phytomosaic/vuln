@@ -59,14 +59,12 @@
 #' @rdname mquantile
 ###   conditional CDF: percentiles of an EPDF across 1-6 dimensions
 `cond_cdf` <- function(x, pltype, ngrid, ...){
-     # if (!is.data.frame(x)) x <- as.data.frame(x)
      if (!is.matrix(x)) x <- as.matrix(x)
      na <- anyNA(x)
      if (na){
           nr <- nrow(x)
           x  <- na.omit(x)
           ix <- attr(x, 'na.action')
-          # cat(length(ix), 'NA rows were removed!\n')
      }
      nc <- dim(x)[[2]]
      pp <- c('none','cdf','pairs','rgl','persp')
@@ -81,7 +79,6 @@
           persp(f$estimate, xlab=f$names[1], ylab=f$names[2],
                 zlab='Prob. density',
                 col=ecole::surfcol(f$estimate, ngrid=ngrid, ...), ...)
-          invisible(NULL)
      }
      if (pltype=='persp' & nc>2){
           message('more than 2 columns, using `pairs` not `persp`')
@@ -133,7 +130,6 @@
 #' @rdname mquantile
 ###   joint CDF: over ALL dimensions simultaneously for 1-3 dimensions
 `joint_cdf` <- function(x, pltype, ngrid, ...){
-     # if (!is.data.frame(x)) x <- as.data.frame(x)
      if (!is.matrix(x)) x <- as.matrix(x)
      nc <- dim(x)[[2]]
      if (nc > 3) stop('only works for 1-3 dimensions')
@@ -142,7 +138,6 @@
           nr <- nrow(x)
           x  <- na.omit(x)
           ix <- attr(x, 'na.action')
-          # cat(length(ix), 'NA rows were removed!')
      }
      pp <- c('none','cdf','pairs','rgl','persp')
      if (missing(pltype)) {
@@ -155,7 +150,6 @@
           f <- ks::kcde(x=x, gridsize=ngrid)
           persp(f$estimate,
                 col=ecole::surfcol(f$estimate, ngrid=ngrid, ...), ...)
-          return(NULL)
      }
      if (pltype=='persp' & nc>2){
           message('more than 2 columns, using `pairs` not `persp`')

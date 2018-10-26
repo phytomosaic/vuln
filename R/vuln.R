@@ -89,13 +89,13 @@
      dimnames(v) <- dimnames(pp) <- dimnames(tmp)
 
      ### function to calculate percentiles
-     `percentile` <- function(j,a,b){
+     `ptile` <- function(j,a,b){
           a <- a[,j]
           b <- b[,j]
           if( all(is.na(a)) |  all(is.na(b))  ){
                message(
                     paste0('no info for variable ', jj,
-                           ', species',j,'\n'))
+                           ', species ',j))
 
                rep(NA, times=length(b))
           } else {
@@ -121,7 +121,7 @@
                               ' species. Niche is extended.'))
           }
           message(paste0(' variable ', jj, ' of ', ncy))
-          pp[,,jj] <- sapply(1:nc, FUN=percentile, a=vest, b=v[,,jj])
+          pp[,,jj] <- sapply(1:nc, FUN=ptile, a=vest, b=v[,,jj])
      }
 
      ### invert by taking complement (if higher values more 'extreme')

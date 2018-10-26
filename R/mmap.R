@@ -44,28 +44,33 @@
 #' x <- iris[,1:3]
 #' n <- NROW(x)
 #' # add geographic structure
-#' x <- data.frame(x,
-#'                 lon = seq(-80,-120,len=n) + rnorm(n,0,2),
-#'                 lat = seq(30,45,len=n) + rnorm(n,0,2),
-#'                 Sepal.Big = as.factor(ifelse(x$Sepal.Length > 6,1,0)))
+#' x <- data.frame(
+#'      x,
+#'      lon = seq(-80,-120,len=n) + rnorm(n,0,2),
+#'      lat = seq(30,45,len=n) + rnorm(n,0,2),
+#'      Sepal.Big = as.factor(ifelse(x$Sepal.Length > 6,1,0)))
 #' (mmap(x, 'Sepal.Length', alpha=1, name='Sepal length'))
 #' (dmap(x, 'Sepal.Big',  name='Sepal > 6 mm'))
-#'
 #'
 #' @import ggplot2
 #' @export
 #' @rdname mmap
 ### plot regional maps (continuous values)
-`mmap` <- function(x, ptcol, name=ptcol, title='', alpha=ptcol,
-                   size=1, xlim=c(-122,-75), ylim=c(25,49.5), tt=F,
+`mmap` <- function(x, ptcol, name=ptcol, title='', alpha=NULL, size=1,
+                   xlim=c(-122,-75), ylim=c(25,49.5), tt=F,
                    bg=NA, low='white', high='black', ...){
      eb <- element_blank()
      hascoord <- ('lat' %in% names(x)) & ('lon' %in% names(x))
      if (!hascoord) stop('need `lat` and `lon` in `x`')
+     if (!is.numeric(alpha)){
+          alf <- ecole::standardize(x[,ptcol])
+     } else {
+          alf <- alpha
+     }
      p <- ggplot(x, aes(x=lon, y=lat)) + labs(x='',y='',title=title)+
           guides(alpha=F) + borders('state', colour='black', fill=bg)+
           coord_map('albers', 37, 49.5, xlim=xlim, ylim=ylim) +
-          geom_point(aes_string(colour=ptcol), alpha=alpha,
+          geom_point(aes_string(colour=ptcol), alpha=alf,
                      shape=16, size=rel(size)) +
           theme_classic() +
           theme(plot.title=element_text(hjust=0.5),
@@ -99,18 +104,23 @@
 #' @export
 #' @rdname mmap
 ### plot regional maps (discrete)
-`dmap` <- function(x, ptcol, name=ptcol, title='', bg=NA,
-                   size=1, xlim=c(-122,-75), ylim=c(25,49.5), ...){
+`dmap` <- function(x, ptcol, name=ptcol, title='', alpha=NULL, size=1,
+                   xlim=c(-122,-75), ylim=c(25,49.5), bg=NA, ...){
      eb <- element_blank()
      hascoord <- ('lat' %in% names(x)) & ('lon' %in% names(x))
      if (!hascoord) stop('need `lat` and `lon` in `x`')
+     if (!is.numeric(alpha)){
+          alf <- c(1,0.1)[as.numeric(x[,ptcol])+1]
+     } else {
+          alf <- alpha
+     }
      p <- ggplot(x, aes(x=lon, y=lat)) +
           borders('state', colour='black', fill=bg) +
           coord_map('albers', 37, 49.5, xlim=xlim, ylim=ylim) +
-          geom_point(aes_string(colour=ptcol),
-                                shape=16, size=rel(size)) +
-          # geom_point(aes_string(colour=ptcol, alpha=ptcol),
+          # geom_point(aes_string(colour=ptcol),
           #            shape=16, size=rel(size)) +
+          geom_point(aes_string(colour=ptcol), alpha=alf,
+                     shape=16, size=rel(size)) +
           labs(x='',y='', title=title) +
           scale_colour_manual(name=name, values=c('grey','black'),
                               na.value='transparent',

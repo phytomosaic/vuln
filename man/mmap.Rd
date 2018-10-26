@@ -5,12 +5,12 @@
 \alias{dmap}
 \title{Custom mapping functions}
 \usage{
-mmap(x, ptcol, name = ptcol, title = "", alpha = ptcol, size = 1,
+mmap(x, ptcol, name = ptcol, title = "", alpha = NULL, size = 1,
   xlim = c(-122, -75), ylim = c(25, 49.5), tt = F, bg = NA,
   low = "white", high = "black", ...)
 
-dmap(x, ptcol, name = ptcol, title = "", bg = NA, size = 1,
-  xlim = c(-122, -75), ylim = c(25, 49.5), ...)
+dmap(x, ptcol, name = ptcol, title = "", alpha = NULL, size = 1,
+  xlim = c(-122, -75), ylim = c(25, 49.5), bg = NA, ...)
 }
 \arguments{
 \item{x}{data.frame of observations.}
@@ -57,12 +57,12 @@ set.seed(1959)
 x <- iris[,1:3]
 n <- NROW(x)
 # add geographic structure
-x <- data.frame(x,
-                lon = seq(-80,-120,len=n) + rnorm(n,0,2),
-                lat = seq(30,45,len=n) + rnorm(n,0,2),
-                Sepal.Big = as.factor(ifelse(x$Sepal.Length > 6,1,0)))
+x <- data.frame(
+     x,
+     lon = seq(-80,-120,len=n) + rnorm(n,0,2),
+     lat = seq(30,45,len=n) + rnorm(n,0,2),
+     Sepal.Big = as.factor(ifelse(x$Sepal.Length > 6,1,0)))
 (mmap(x, 'Sepal.Length', alpha=1, name='Sepal length'))
 (dmap(x, 'Sepal.Big',  name='Sepal > 6 mm'))
-
 
 }

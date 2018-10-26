@@ -27,24 +27,30 @@ Quantiles of observations in multivariate space.
 }
 \details{
 Where:\cr
-     X = n x m matrix,\cr
-     EPDF = empirical probability distribution function (density),
-     and\cr
-     ECDF = empirical cumulative distribution function;\cr\cr
-     Then three possible multivariate quantiles are:\cr\cr
+     X \verb{    } = n x m matrix,\cr
+     EPDF \verb{} = empirical probability distribution function
+     (density), and\cr
+     ECDF \verb{} = empirical cumulative distribution function;
+
+
+     Then three possible multivariate quantiles are:
+
      [1] Marginal quantile: from ECDF of raw data for EACH axis
      independently (so yields m separate vectors each of length
-     n).\cr\cr
+     n).
+
      [2] Joint quantile: from ECDF of raw data across ALL m axes
      simultaneously (so yields 1 vector of length n); always
-     monotonically increasing toward higher axis values.\cr\cr
+     monotonically increasing toward higher axis values.
+
      [3] Conditional quantile: from the ECDF of the EPDF of ALL m
      axes simultaneously (so yields 1 vector of length n);
      monotonically increasing toward lower \emph{density} values,
-     but may vary with respect to \emph{axis} values.\cr\cr
+     but may vary with respect to \emph{axis} values.
+
 Conditional quantiles are analogous to data depth methods; current
      implementation allows 1-6 dimensions. Joint quantiles are
-     analogous to Pareto frontiers; current  implementation allows
+     analogous to Pareto frontiers; current implementation allows
      1-3 dimensions.
 }
 \examples{

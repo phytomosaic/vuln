@@ -25,13 +25,11 @@
 #' @export
 #' @rdname utils
 `litetvi` <- function(spe, y, ybin, ...){
-
      spe <- as.matrix(spe)
      spe[spe>0] <- 1
      spe[spe==0] <- NA
      nr <- nrow(spe)
      nc <- ncol(spe)
-
      v  <- p <- data.frame(spe * y)
      p[] <- NA
      vest <- data.frame(as.matrix(ybin))

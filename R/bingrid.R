@@ -65,7 +65,7 @@
      r <- raster::raster(nrows=nr, ncols=nc,
                          xmn=xmn, xmx=xmx, ymn=ymn, ymx=ymx)
      if (!hascoord) stop('need names `lat`,`lon`,`spp` in data')
-     L <- plyr::dlply(
+     out <- plyr::dlply(
           x,
           'spp',
           .fun=function(x){
@@ -75,7 +75,7 @@
           },
           .progress='text',
           .drop=F)
-     out <- data.frame(t(plyr::laply(L, .fun=raster::getValues)))
+     out <- data.frame(t(plyr::laply(out, .fun=raster::getValues)))
      class(out) <- c(class(out), 'bingrid')
      out
 }

@@ -33,10 +33,10 @@
 #' @param ... further arguments passed to other functions.
 #'
 #' @return
-#' Plots to device, or else object of class \code{'zzz'}.
+#' Plots to device, or else object of class \code{'ggplot'}.
 #'
 #' @details
-#' Plot continuous (\code{'mmap'})or discrete values (\code{'dmap'}).
+#' Plot continuous (\code{'mmap'}) or discrete values (\code{'dmap'}).
 #'
 #' @examples
 #' # iris data
@@ -117,8 +117,6 @@
      p <- ggplot(x, aes(x=lon, y=lat)) +
           borders('state', colour='black', fill=bg) +
           coord_map('albers', 37, 49.5, xlim=xlim, ylim=ylim) +
-          # geom_point(aes_string(colour=ptcol),
-          #            shape=16, size=rel(size)) +
           geom_point(aes_string(colour=ptcol), alpha=alf,
                      shape=16, size=rel(size)) +
           labs(x='',y='', title=title) +
@@ -128,7 +126,6 @@
                                    title.position='top',
                                    keywidth=1, keyheight=.7,
                                    override.aes=list(size=2.5))) +
-          # scale_alpha_discrete(range=c(.1,1), guide='none') +
           theme_classic() +
           theme(plot.title=element_text(hjust=0.5),
                 plot.background=eb,

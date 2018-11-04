@@ -58,7 +58,7 @@ r <- raster(nrows=30, ncols=50,
                     xmn=-125, xmx=-75, ymn=20, ymx=55)
 r[] <- 0
 s <- stack(r,r,r)
-for (i in 1:3){ s[[i]][] <- bin_sepal[[i]] }
+for (i in 1:3){ s[[i]][] <- bin_sepal[,i] }
 plot(s, col=viridis::inferno(99))
 
 }

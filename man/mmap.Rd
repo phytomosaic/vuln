@@ -43,13 +43,13 @@ transparent).}
 \item{...}{further arguments passed to other functions.}
 }
 \value{
-Plots to device, or else object of class \code{'zzz'}.
+Plots to device, or else object of class \code{'ggplot'}.
 }
 \description{
 Map geographic locations as points colored by values.
 }
 \details{
-Plot continuous (\code{'mmap'})or discrete values (\code{'dmap'}).
+Plot continuous (\code{'mmap'}) or discrete values (\code{'dmap'}).
 }
 \examples{
 # iris data

@@ -51,7 +51,7 @@
 #'                     xmn=-125, xmx=-75, ymn=20, ymx=55)
 #' r[] <- 0
 #' s <- stack(r,r,r)
-#' for (i in 1:3){ s[[i]][] <- bin_sepal[[i]] }
+#' for (i in 1:3){ s[[i]][] <- bin_sepal[,i] }
 #' plot(s, col=viridis::inferno(99))
 #'
 #' @seealso
@@ -59,23 +59,22 @@
 #'
 #' @export
 #' @rdname bingrid
-`bingrid` <- function(x, field='', nr, nc, xmn, xmx, ymn, ymx, ...){
-     nm <- names(x)
-     hascoord <- ('lat' %in% nm) & ('lon' %in% nm) & ('spp' %in% nm)
-     r <- raster::raster(nrows=nr, ncols=nc,
-                         xmn=xmn, xmx=xmx, ymn=ymn, ymx=ymx)
-     if (!hascoord) stop('need names `lat`,`lon`,`spp` in data')
-     out <- plyr::dlply(
-          x,
-          'spp',
-          .fun=function(x){
-               x <- data.frame(x[,!names(x)%in%'spp',drop=T])
-               sp::coordinates(x) <- c('lon','lat')
-               raster::rasterize(x, r, field=field, fun=mean, na.rm=T)
-          },
-          .progress='text',
-          .drop=F)
-     out <- data.frame(t(plyr::laply(out, .fun=raster::getValues)))
-     class(out) <- c(class(out), 'bingrid')
-     out
+`bingrid` <- function (x, field='', nr, nc, xmn, xmx, ymn, ymx, ...){
+     hascol <- all(c('lat','lon','spp',field) %in% names(x))
+     if (!hascol) stop('need columns `lat`,`lon`,`spp` and `field`')
+     x <- by(data = x[, !colnames(x) %in% 'spp'],
+             IND = x[ ,'spp'],
+             FUN = function(a) {
+                  sp::coordinates(a) <- c('lon', 'lat')
+                  raster::rasterize(
+                       a,
+                       raster::raster(nrows = nr, ncols = nc,
+                                      xmn = xmn, xmx = xmx,
+                                      ymn = ymn, ymx = ymx),
+                       field = field,
+                       fun = mean,
+                       na.rm = T)}, simplify=F)
+     x <- sapply(x, FUN = raster::getValues)
+     class(x) <- c(class(x), 'bingrid')
+     x
 }

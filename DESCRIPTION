@@ -1,6 +1,6 @@
 Package: vuln
 Title: Niche-based Vulnerability of Species and Communities
-Version: 0.0.01-2018
+Version: 0.0.02-2018
 Authors@R: person("Robert", "Smith", email = "smithr2@oregonstate.edu", role = c("aut", "cre"))
 Description: Metrics of niche-based vulnerability for single species and multi-species communities in a spatial context.
 License: GPL (>= 3) + file LICENSE
@@ -15,8 +15,6 @@ Imports:
     sp,
     ks,
     rgl,
-    reshape,
-    plyr,
     ggplot2,
     grid,
     gridExtra,

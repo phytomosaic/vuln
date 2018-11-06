@@ -86,12 +86,13 @@
      }
      p <- ggplot(x, aes(x=lon, y=lat)) + labs(x='',y='',title=title) +
           guides(alpha=F) +
-          borders('state', colour='black', fill=bg) +
+          borders('state', colour='black', fill=bg, size=rel(sizetxt)*0.4) +
           coord_map('albers', 37, 49.5, xlim=xlim, ylim=ylim) +
           geom_point(aes_string(colour=field), alpha=alf,
                      shape=16, size=rel(sizept)) +
           theme_classic() +
-          theme(plot.title=element_text(hjust=0.5),
+          theme(plot.margin = unit(c(1,1,1,1),'mm'),
+                plot.title=element_text(hjust=0.5),
                 plot.background=eb,
                 panel.background=eb,
                 legend.background=eb,
@@ -108,31 +109,35 @@
      if (colorscale == 'discretebw'){
           p <- p +  scale_colour_manual(
                name=name, na.value='transparent',
-               values=c('#0000000D','#000000E6'),
+               values=c('#00000003','#000000E6'),
                guide=guide_legend(
                     title.position='top',
                     keywidth=1, keyheight=.7,
-                    override.aes=list(size=rel(sizept)*2.5)))  # size=2.5
+                    override.aes=list(size=rel(sizept)*2.5,
+                                      colour=c('#0000001A','#000000E6'))))  # size=2.5
      } else if (colorscale == 'bw'){
           p <- p + scale_colour_gradient(
                name=name, low='white', high='black',
                na.value='transparent',
                guide=guide_colorbar(title.position='top',
-                                    barwidth=5, barheight=.7))
+                                    barwidth=rel(sizetxt)*4,
+                                    barheight=rel(sizetxt)*0.5))
      } else if (colorscale == 'bw2'){
           message('colorscale = `bw2` is for data in [0,100]')
           p <- p + scale_colour_gradient2(
                name=name, low='white', mid='grey', high='black',
                midpoint=55, na.value='transparent',
                labels=c('0','25','50','75','100'),
-               breaks = c(0,25,50,75,100),
+               breaks = c(0, 25, 50, 75, 100),
                guide=guide_colorbar(title.position='top',
-                                    barwidth=5, barheight=.7))
+                                    barwidth=rel(sizetxt)*4,
+                                    barheight=rel(sizetxt)*0.5))
      } else if (colorscale == 'inferno'){
           p <- p + scale_color_viridis(
                name=name, na.value='transparent',
                guide=guide_colorbar(title.position='top',
-                                    barwidth=5, barheight=.7),
+                                    barwidth=rel(sizetxt)*4,
+                                    barheight=rel(sizetxt)*0.5),
                begin=0.1, end=0.9, option='B')
      }
 }

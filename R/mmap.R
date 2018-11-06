@@ -125,7 +125,7 @@
                name=name, low='white', mid='grey', high='black',
                midpoint=55, na.value='transparent',
                labels=c('0','25','50','75','100'),
-               breaks=c('0','25','50','75','100'),
+               breaks = c(0,25,50,75,100),
                guide=guide_colorbar(title.position='top',
                                     barwidth=5, barheight=.7))
      } else if (colorscale == 'inferno'){

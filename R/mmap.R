@@ -15,7 +15,7 @@
 #' @param alpha numeric vector, values used for relative alpha
 #'      transparency.
 #'
-#' @param size numeric, relative point size.
+#' @param sizept,sizetxt numeric, relative size for points and text.
 #'
 #' @param xlim numeric vector, x limits (longitude in decimal
 #'     degrees).
@@ -57,9 +57,9 @@
 #' @export
 #' @rdname mmap
 ### plot regional maps (continuous values)
-`mmap` <- function(x, field, name=field, title='', alpha=NA, size=1,
-                   xlim=c(-122,-75), ylim=c(25,49.5), bg=NA,
-                   colorscale, ...){
+`mmap` <- function(x, field, name=field, title='', alpha=NA, sizept=1,
+                   sizetxt=1, xlim=c(-122,-75), ylim=c(25,49.5),
+                   bg=NA, colorscale, ...){
      hascoord <- ('lat' %in% names(x)) & ('lon' %in% names(x))
      if (!hascoord) stop('need `lat` and `lon` in `x`')
      eb <- element_blank()
@@ -89,7 +89,7 @@
           borders('state', colour='black', fill=bg) +
           coord_map('albers', 37, 49.5, xlim=xlim, ylim=ylim) +
           geom_point(aes_string(colour=field), alpha=alf,
-                     shape=16, size=rel(size)) +
+                     shape=16, size=rel(sizept)) +
           theme_classic() +
           theme(plot.title=element_text(hjust=0.5),
                 plot.background=eb,
@@ -99,8 +99,8 @@
                 legend.direction='horizontal',
                 legend.key.height=unit(0.03,'npc'),
                 legend.key.width=unit(0.02,'npc'),
-                legend.title=element_text(size=9),
-                legend.text=element_text(size=7),
+                legend.title=element_text(size=rel(sizetxt)*0.8), # (size=9)
+                legend.text=element_text(size=rel(sizetxt)*0.7),  # (size=7)
                 axis.line=eb,
                 axis.ticks=eb,
                 axis.text=eb,
@@ -112,7 +112,7 @@
                guide=guide_legend(
                     title.position='top',
                     keywidth=1, keyheight=.7,
-                    override.aes=list(size=2.5)))
+                    override.aes=list(size=rel(sizept)*2.5)))  # size=2.5
      } else if (colorscale == 'bw'){
           p <- p + scale_colour_gradient(
                name=name, low='white', high='black',

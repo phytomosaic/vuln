@@ -4,8 +4,9 @@
 \alias{mmap}
 \title{Regional mapping}
 \usage{
-mmap(x, field, name = field, title = "", alpha = NA, size = 1,
-  xlim = c(-122, -75), ylim = c(25, 49.5), bg = NA, colorscale, ...)
+mmap(x, field, name = field, title = "", alpha = NA, sizept = 1,
+  sizetxt = 1, xlim = c(-122, -75), ylim = c(25, 49.5), bg = NA,
+  colorscale, ...)
 }
 \arguments{
 \item{x}{data.frame of observations.}
@@ -20,7 +21,7 @@ color points.}
 \item{alpha}{numeric vector, values used for relative alpha
 transparency.}
 
-\item{size}{numeric, relative point size.}
+\item{sizept, sizetxt}{numeric, relative size for points and text.}
 
 \item{xlim}{numeric vector, x limits (longitude in decimal
 degrees).}

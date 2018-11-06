@@ -91,7 +91,7 @@
           geom_point(aes_string(colour=field), alpha=alf,
                      shape=16, size=rel(sizept)) +
           theme_classic() +
-          theme(plot.margin = unit(c(1,1,1,1),'mm'),
+          theme(plot.margin = unit(c(-5,1,1,1),'mm'),
                 plot.title=element_text(hjust=0.5),
                 plot.background=eb,
                 panel.background=eb,

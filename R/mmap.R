@@ -1,11 +1,11 @@
-#' @title Custom mapping functions
+#' @title Regional mapping
 #'
 #' @description
 #' Map geographic locations as points colored by values.
 #'
 #' @param x data.frame of observations.
 #'
-#' @param ptcol character, name of column in \code{x} by which to
+#' @param field character, name of column in \code{x} by which to
 #'      color points.
 #'
 #' @param name character, name for color scale.
@@ -15,28 +15,27 @@
 #' @param alpha numeric vector, values used for relative alpha
 #'      transparency.
 #'
-#' @param size numeric, point size.
+#' @param size numeric, relative point size.
 #'
-#' @param xlim numeric vector, x limits (longitude).
+#' @param xlim numeric vector, x limits (longitude in decimal
+#'     degrees).
 #'
-#' @param ylim numeric vector, x limits (latitude).
-#'
-#' @param tt logical, two-tone color scale?
+#' @param ylim numeric vector, y limits (latitude in decimal degrees).
 #'
 #' @param bg character, background fill for land area (defaults to
 #'      transparent).
 #'
-#' @param low character, lower end of color scale.
+#' @param colorscale character, one of \code{c('bw','bw2','inferno',
+#'     'discretebw')} defining the color scale.
 #'
-#' @param high character, upper end of color scale.
-#'
-#' @param ... further arguments passed to other functions.
+#' @param ... further arguments currently ignored.
 #'
 #' @return
-#' Plots to device, or else object of class \code{'ggplot'}.
+#' Returns or plots an object inheriting from class \code{'ggplot'}.
 #'
 #' @details
-#' Plot continuous (\code{'mmap'}) or discrete values (\code{'dmap'}).
+#' Plot continuous or discrete values mapped across regions of North
+#'     America.
 #'
 #' @examples
 #' # iris data
@@ -50,27 +49,46 @@
 #'      lat = seq(30,45,len=n) + rnorm(n,0,2),
 #'      Sepal.Big = as.factor(ifelse(x$Sepal.Length > 6,1,0)))
 #' (mmap(x, 'Sepal.Length', alpha=1, name='Sepal length'))
-#' (dmap(x, 'Sepal.Big',  name='Sepal > 6 mm'))
+#' (mmap(x, 'Sepal.Length', alpha=1, name='Sepal length',
+#'       colorscale='inferno'))
+#' (mmap(x, 'Sepal.Big',  name='Sepal > 6 mm'))
 #'
 #' @import ggplot2
 #' @export
 #' @rdname mmap
 ### plot regional maps (continuous values)
-`mmap` <- function(x, ptcol, name=ptcol, title='', alpha=NULL, size=1,
-                   xlim=c(-122,-75), ylim=c(25,49.5), tt=F,
-                   bg=NA, low='white', high='black', ...){
-     eb <- element_blank()
+`mmap` <- function(x, field, name=field, title='', alpha=NA, size=1,
+                   xlim=c(-122,-75), ylim=c(25,49.5), bg=NA,
+                   colorscale, ...){
      hascoord <- ('lat' %in% names(x)) & ('lon' %in% names(x))
      if (!hascoord) stop('need `lat` and `lon` in `x`')
-     if (!is.numeric(alpha)){
-          alf <- ecole::standardize(x[,ptcol])
+     eb <- element_blank()
+     isnum <- is.numeric(x[ ,field])
+     v  <- c('bw','bw2','inferno','discretebw')
+     # select appropriate colorscale
+     if (!isnum){
+          message('values not numeric, using discrete scale')
+          colorscale <- 'discretebw'
+     } else if (isnum & missing(colorscale)){
+          colorscale <- 'bw'
      } else {
+          colorscale <- v[pmatch(colorscale, v)]
+     }
+     # select appropriate alpha level
+     isalf <- is.numeric(alpha)
+     if (!isnum & !isalf){
+          alf <- NA
+          # alf <- c(0.1,1)[as.numeric(x[,field])+1]
+     } else if (isnum & !isalf){
+          alf <- ecole::standardize(x[,field])
+     } else if (isnum & isalf){
           alf <- alpha
      }
-     p <- ggplot(x, aes(x=lon, y=lat)) + labs(x='',y='',title=title)+
-          guides(alpha=F) + borders('state', colour='black', fill=bg)+
+     p <- ggplot(x, aes(x=lon, y=lat)) + labs(x='',y='',title=title) +
+          guides(alpha=F) +
+          borders('state', colour='black', fill=bg) +
           coord_map('albers', 37, 49.5, xlim=xlim, ylim=ylim) +
-          geom_point(aes_string(colour=ptcol), alpha=alf,
+          geom_point(aes_string(colour=field), alpha=alf,
                      shape=16, size=rel(size)) +
           theme_classic() +
           theme(plot.title=element_text(hjust=0.5),
@@ -87,58 +105,34 @@
                 axis.ticks=eb,
                 axis.text=eb,
                 axis.title=eb)
-     if(tt){
+     if (colorscale == 'discretebw'){
+          p <- p +  scale_colour_manual(
+               name=name, na.value='transparent',
+               values=c('#0000000D','#000000E6'),
+               guide=guide_legend(
+                    title.position='top',
+                    keywidth=1, keyheight=.7,
+                    override.aes=list(size=2.5)))
+     } else if (colorscale == 'bw'){
+          p <- p + scale_colour_gradient(
+               name=name, low='white', high='black',
+               na.value='transparent',
+               guide=guide_colorbar(title.position='top',
+                                    barwidth=5, barheight=.7))
+     } else if (colorscale == 'bw2'){
+          message('colorscale = `bw2` is for data in [0,100]')
           p <- p + scale_colour_gradient2(
                name=name, low='white', mid='grey', high='black',
                midpoint=55, na.value='transparent',
                labels=c('0','25','50','75','100'),
+               breaks=c('0','25','50','75','100'),
                guide=guide_colorbar(title.position='top',
                                     barwidth=5, barheight=.7))
-     }else{
-          p <- p + scale_colour_gradient(
-               name=name, low=low, high=high, na.value='transparent',
+     } else if (colorscale == 'inferno'){
+          p <- p + scale_color_viridis(
+               name=name, na.value='transparent',
                guide=guide_colorbar(title.position='top',
-                                    barwidth=5, barheight=.7))
+                                    barwidth=5, barheight=.7),
+               begin=0.1, end=0.9, option='B')
      }
-}
-#' @export
-#' @rdname mmap
-### plot regional maps (discrete)
-`dmap` <- function(x, ptcol, name=ptcol, title='', alpha=NULL, size=1,
-                   xlim=c(-122,-75), ylim=c(25,49.5), bg=NA, ...){
-     eb <- element_blank()
-     hascoord <- ('lat' %in% names(x)) & ('lon' %in% names(x))
-     if (!hascoord) stop('need `lat` and `lon` in `x`')
-     if (!is.numeric(alpha)){
-          alf <- c(1,0.1)[as.numeric(x[,ptcol])+1]
-     } else {
-          alf <- alpha
-     }
-     p <- ggplot(x, aes(x=lon, y=lat)) +
-          borders('state', colour='black', fill=bg) +
-          coord_map('albers', 37, 49.5, xlim=xlim, ylim=ylim) +
-          geom_point(aes_string(colour=ptcol), alpha=alf,
-                     shape=16, size=rel(size)) +
-          labs(x='',y='', title=title) +
-          scale_colour_manual(name=name, values=c('grey','black'),
-                              na.value='transparent',
-                              guide=guide_legend(
-                                   title.position='top',
-                                   keywidth=1, keyheight=.7,
-                                   override.aes=list(size=2.5))) +
-          theme_classic() +
-          theme(plot.title=element_text(hjust=0.5),
-                plot.background=eb,
-                panel.background=eb,
-                legend.background=eb,
-                legend.position=c(0.2,0.15),
-                legend.direction='horizontal',
-                legend.key.height=unit(0.03,'npc'),
-                legend.key.width=unit(0.02,'npc'),
-                legend.title=element_text(size=9),
-                legend.text=element_text(size=7),
-                axis.line=eb,
-                axis.ticks=eb,
-                axis.text=eb,
-                axis.title=eb)
 }

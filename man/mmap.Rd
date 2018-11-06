@@ -2,20 +2,15 @@
 % Please edit documentation in R/mmap.R
 \name{mmap}
 \alias{mmap}
-\alias{dmap}
-\title{Custom mapping functions}
+\title{Regional mapping}
 \usage{
-mmap(x, ptcol, name = ptcol, title = "", alpha = NULL, size = 1,
-  xlim = c(-122, -75), ylim = c(25, 49.5), tt = F, bg = NA,
-  low = "white", high = "black", ...)
-
-dmap(x, ptcol, name = ptcol, title = "", alpha = NULL, size = 1,
-  xlim = c(-122, -75), ylim = c(25, 49.5), bg = NA, ...)
+mmap(x, field, name = field, title = "", alpha = NA, size = 1,
+  xlim = c(-122, -75), ylim = c(25, 49.5), bg = NA, colorscale, ...)
 }
 \arguments{
 \item{x}{data.frame of observations.}
 
-\item{ptcol}{character, name of column in \code{x} by which to
+\item{field}{character, name of column in \code{x} by which to
 color points.}
 
 \item{name}{character, name for color scale.}
@@ -25,31 +20,30 @@ color points.}
 \item{alpha}{numeric vector, values used for relative alpha
 transparency.}
 
-\item{size}{numeric, point size.}
+\item{size}{numeric, relative point size.}
 
-\item{xlim}{numeric vector, x limits (longitude).}
+\item{xlim}{numeric vector, x limits (longitude in decimal
+degrees).}
 
-\item{ylim}{numeric vector, x limits (latitude).}
-
-\item{tt}{logical, two-tone color scale?}
+\item{ylim}{numeric vector, y limits (latitude in decimal degrees).}
 
 \item{bg}{character, background fill for land area (defaults to
 transparent).}
 
-\item{low}{character, lower end of color scale.}
+\item{colorscale}{character, one of \code{c('bw','bw2','inferno',
+'discretebw')} defining the color scale.}
 
-\item{high}{character, upper end of color scale.}
-
-\item{...}{further arguments passed to other functions.}
+\item{...}{further arguments currently ignored.}
 }
 \value{
-Plots to device, or else object of class \code{'ggplot'}.
+Returns or plots an object inheriting from class \code{'ggplot'}.
 }
 \description{
 Map geographic locations as points colored by values.
 }
 \details{
-Plot continuous (\code{'mmap'}) or discrete values (\code{'dmap'}).
+Plot continuous or discrete values mapped across regions of North
+    America.
 }
 \examples{
 # iris data
@@ -63,6 +57,8 @@ x <- data.frame(
      lat = seq(30,45,len=n) + rnorm(n,0,2),
      Sepal.Big = as.factor(ifelse(x$Sepal.Length > 6,1,0)))
 (mmap(x, 'Sepal.Length', alpha=1, name='Sepal length'))
-(dmap(x, 'Sepal.Big',  name='Sepal > 6 mm'))
+(mmap(x, 'Sepal.Length', alpha=1, name='Sepal length',
+      colorscale='inferno'))
+(mmap(x, 'Sepal.Big',  name='Sepal > 6 mm'))
 
 }

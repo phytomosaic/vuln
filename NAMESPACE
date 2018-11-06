@@ -2,7 +2,6 @@
 
 export(bingrid)
 export(cond_cdf)
-export(dmap)
 export(gv)
 export(joint_cdf)
 export(litetvi)

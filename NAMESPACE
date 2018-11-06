@@ -3,6 +3,7 @@
 export(bingrid)
 export(cond_cdf)
 export(gv)
+export(heatindex)
 export(joint_cdf)
 export(litetvi)
 export(mmap)

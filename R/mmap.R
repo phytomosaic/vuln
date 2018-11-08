@@ -86,13 +86,15 @@
      }
      p <- ggplot(x, aes(x=lon, y=lat)) + labs(x='',y='',title=title) +
           guides(alpha=F) +
-          borders('state', colour='black', fill=bg, size=rel(sizetxt)*0.4) +
+          borders('state', colour='black', fill=bg,
+                  size=rel(sizetxt)*0.4) +
           coord_map('albers', 37, 49.5, xlim=xlim, ylim=ylim) +
           geom_point(aes_string(colour=field), alpha=alf,
                      shape=16, size=rel(sizept)) +
           theme_classic() +
           theme(plot.margin = unit(c(-5,1,1,1),'mm'),
-                plot.title=element_text(hjust=0.5),
+                plot.title=element_text(hjust=0.5, vjust=-2,
+                                        size=rel(sizetxt)*1),
                 plot.background=eb,
                 panel.background=eb,
                 legend.background=eb,
@@ -100,8 +102,8 @@
                 legend.direction='horizontal',
                 legend.key.height=unit(0.03,'npc'),
                 legend.key.width=unit(0.02,'npc'),
-                legend.title=element_text(size=rel(sizetxt)*0.8), # (size=9)
-                legend.text=element_text(size=rel(sizetxt)*0.7),  # (size=7)
+                legend.title=element_text(size=rel(sizetxt)*0.8),
+                legend.text=element_text(size=rel(sizetxt)*0.7),
                 axis.line=eb,
                 axis.ticks=eb,
                 axis.text=eb,
@@ -113,8 +115,9 @@
                guide=guide_legend(
                     title.position='top',
                     keywidth=1, keyheight=.7,
-                    override.aes=list(size=rel(sizept)*2.5,
-                                      colour=c('#0000001A','#000000E6'))))  # size=2.5
+                    override.aes=list(
+                         size=rel(sizept)*2.5,
+                         colour=c('#0000001A','#000000E6'))))
      } else if (colorscale == 'bw'){
           p <- p + scale_colour_gradient(
                name=name, low='white', high='black',

@@ -8,7 +8,7 @@
 \usage{
 litetvi(spe, y, ybin, ...)
 
-quantileonly(spe, ybin, ...)
+quantileonly(spe, ybin, na.rm = TRUE, ...)
 
 percentileonly(spe, y, ybin, ...)
 }

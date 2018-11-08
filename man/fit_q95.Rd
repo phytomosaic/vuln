@@ -2,9 +2,15 @@
 % Please edit documentation in R/fit_q95.R
 \name{fit_q95}
 \alias{fit_q95}
+\alias{persp_q95}
+\alias{qlab}
 \title{Fit 95th percentile as nonlinear 2D surface}
 \usage{
 fit_q95(data, ...)
+
+persp_q95(m, data, zlo, zhi, zlab = "\\nV1", ...)
+
+qlab(txt = "A)", ...)
 }
 \arguments{
 \item{data}{data.frame of observations, with columns named

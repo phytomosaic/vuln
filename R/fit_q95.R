@@ -35,6 +35,8 @@
      cat('R2 =', m$r.squared, '\n')
      m
 }
+#' @export
+#' @rdname fit_q95
 `persp_q95` <- function(m, data, zlo, zhi, zlab='\nV1', ...){
      op <- par(cex.axis=0.7, cex.lab=0.9, mar=c(1,0,0,0))
      on.exit(par(op))
@@ -52,6 +54,8 @@
            zlim=c(zlo, zhi), ticktype='detailed', border='#4D4D4D',
            theta=134, phi=35, expand=0.7, shade=0.7, ...)
 }
+#' @export
+#' @rdname fit_q95
 `qlab` <- function(txt='A)', ...){
      mtext(txt,3,-0.5,adj=0.1)
 }

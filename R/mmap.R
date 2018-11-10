@@ -65,7 +65,6 @@
      eb <- element_blank()
      isnum <- is.numeric(x[ ,field])
      v  <- c('bw','bw2','inferno','discretebw')
-     # select appropriate colorscale
      if (!isnum){
           message('values not numeric, using discrete scale')
           colorscale <- 'discretebw'
@@ -74,11 +73,9 @@
      } else {
           colorscale <- v[pmatch(colorscale, v)]
      }
-     # select appropriate alpha level
      isalf <- is.numeric(alpha)
      if (!isnum & !isalf){
           alf <- NA
-          # alf <- c(0.1,1)[as.numeric(x[,field])+1]
      } else if (isnum & !isalf){
           alf <- ecole::standardize(x[,field])
      } else if (isnum & isalf){

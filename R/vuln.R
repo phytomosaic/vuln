@@ -35,7 +35,15 @@
 #' @param ... further arguments passed to other functions.
 #'
 #' @return
-#' Object of class \code{'vuln'}.
+#' List object of class \code{'vuln'}, containing:
+#'
+#' - \code{v}: \code{y} values at all sites in \code{spe},
+#' - \code{ve}: \code{y} values at all sites in \code{ybin},
+#' - \code{vo}: vulnerable occurrences matrix,
+#' - \code{va}: vulnerable abundances matrix,
+#' - \code{t1}: values for 1st vulnerability index,
+#' - \code{t2}: values for 2nd vulnerability index,
+#' - \code{t3}: values for 3rd vulnerability index.
 #'
 #' @examples
 #' ## Load data
@@ -157,14 +165,16 @@
      }
 
      ### collect output
-     out <- list(v=v,     # y values at all occupied sites
+     out <- list(v=v,    # y values at all occupied sites
+                 ve=NULL, # extended y values from `ybin`
                  vo=vo,    # vulnerable occurrences mx
                  va=va,     # vulnerable abundances mx
-                 t1=t1,       # vulnerability indices
-                 t2=t2,        # vulnerability indices
-                 t3=NULL        # vulnerability indices
+                 t1=t1,      # vulnerability indices
+                 t2=t2,       # vulnerability indices
+                 t3=NULL       # vulnerability indices
      )
-     if (exists('t3')) out$t3 <- t3
+     if (exists('t3'))       out$t3 <- t3
+     if (!is.missing(ybin))  out$ve <- vest
      class(out) <- 'vuln'
      out
 }

@@ -41,7 +41,15 @@ non-NA \code{y} cases.}
 \item{pick}{numeric, indicating which vulnerability metric (1,2,3).}
 }
 \value{
-Object of class \code{'vuln'}.
+List object of class \code{'vuln'}, containing:
+
+- \code{v}: \code{y} values at all sites in \code{spe},
+- \code{ve}: \code{y} values at all sites in \code{ybin},
+- \code{vo}: vulnerable occurrences matrix,
+- \code{va}: vulnerable abundances matrix,
+- \code{t1}: values for 1st vulnerability index,
+- \code{t2}: values for 2nd vulnerability index,
+- \code{t3}: values for 3rd vulnerability index.
 }
 \description{
 Multidimensional vulnerability index, using truncated or extended

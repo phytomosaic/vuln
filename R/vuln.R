@@ -174,7 +174,7 @@
                  t3=NULL       # vulnerability indices
      )
      if (exists('t3'))       out$t3 <- t3
-     if (!is.missing(ybin))  out$ve <- vest
+     if (!missing(ybin))  out$ve <- vest
      class(out) <- 'vuln'
      out
 }

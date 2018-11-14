@@ -3,17 +3,17 @@
 \name{make_d}
 \alias{make_d}
 \alias{plot_d}
-\alias{ftxt_tau}
-\alias{ftxt_val}
-\title{Utility functions for plotting}
+\alias{txt_tau}
+\alias{txt_val}
+\title{Utility functions for plotting conceptual figures}
 \usage{
 make_d(x, ...)
 
 plot_d(d, plotd = FALSE, ...)
 
-ftxt_tau(e, tau = 0.95, ht, ...)
+txt_tau(e, tau = 0.95, ht, i, ...)
 
-ftxt_val(e1, e2, e3, xval = 18.5, ht, ...)
+txt_val(e1, e2, e3, xval = 18.5, ht, ...)
 }
 \arguments{
 \item{x}{vector of climate values at which a species occurs.}
@@ -36,8 +36,8 @@ ftxt_val(e1, e2, e3, xval = 18.5, ht, ...)
 See below.
 }
 \description{
-Various utility functions.
+Utility plotting functions.
 }
 \details{
-Lightweight functions to plot.
+Lightweight functions to plot conceptual figures.
 }

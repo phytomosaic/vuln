@@ -1,7 +1,7 @@
-#' @title Utility functions for plotting
+#' @title Utility functions for plotting conceptual figures
 #'
 #' @description
-#' Various utility functions.
+#' Utility plotting functions.
 #'
 #' @param x vector of climate values at which a species occurs.
 #'
@@ -23,7 +23,7 @@
 #' See below.
 #'
 #' @details
-#' Lightweight functions to plot.
+#' Lightweight functions to plot conceptual figures.
 #'
 #' @export
 #' @rdname plotutils
@@ -48,26 +48,24 @@
 }
 #' @export
 #' @rdname plotutils
-`ftxt_tau` <- function(e, tau=0.95, ht, ...){
-     xval <- quantile(e,tau)  # value at tau
-     arrows(x0=xval, y0=0, x1 = xval, y1 = ht, code=1,
-            length = 0.12, angle = 20, lwd=2)
-     txt <- bquote(
-          paste(italic(x[i]) ==.(sprintf('%.2f', round(xval,2))),
-                ', ', tau ==.(sprintf('%.2f', tau)),'       '))
-     sw   <- strwidth(txt) *0.4
-     sh   <- strheight(txt)*0.6
-     rect(xval - sw/2 - 0.0, ht - sh/2 - 0.01,
-          xval + sw/2 + 0.0, ht + sh/2 + 0.01,
-          col = 'white',  border = NA)
-     text(xval, ht, txt, cex=0.7)
+`txt_tau` <- function (e, tau = 0.95, ht, i, ...) {
+     xval <- quantile(e, tau)
+     arrows(x0 = xval, y0 = 0, x1 = xval, y1 = ht, code = 1,
+            length = 0.12, angle = 20, lwd = 2)
+     txt <- bquote(italic(Q[.(i)])(0.95) ==
+                        .(sprintf("%.1f", round(xval, 2))))
+     sw <- strwidth(txt) * 0.6
+     sh <- strheight(txt) * 0.6
+     rect(xval - sw/2 - 0, ht - sh/2 - 0.01, xval + sw/2 + 0,
+          ht + sh/2 + 0.01, col = "white", border = NA)
+     text(xval, ht, txt, cex = 0.7)
 }
 #' @export
 #' @rdname plotutils
-`ftxt_val` <- function(e1, e2, e3, xval=18.5, ht, ...){
+`txt_val` <- function(e1, e2, e3, xval=18.5, ht, ...){
      arrows(x0=xval, y0=0, x1 = xval, y1 = ht, code=1,
             length = 0.12, angle = 20, lwd=2)
-     t0 <- bquote(italic(x[i]) ==.(sprintf('%.2f', round(xval,2))))
+     t0 <- bquote(italic(x[i]) ==.(sprintf('%.1f', round(xval,2))))
      t1 <- bquote(tau[1] == .(sprintf('%.2f', round(e1(xval),2))))
      t2 <- bquote(tau[2] == .(sprintf('%.2f', round(e2(xval),2))))
      t3 <- bquote(tau[3] == .(sprintf('%.2f', round(e3(xval),2))))

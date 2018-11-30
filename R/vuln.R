@@ -36,18 +36,19 @@
 #'
 #' @return
 #' List object of class \code{'vuln'}, containing:
-#'
-#' - \code{v}: \code{y} values at all sites in \code{spe},
-#' - \code{ve}: \code{y} values at all sites in \code{ybin},
-#' - \code{vo}: \strong{vulnerable} occurrences matrix,
-#' - \code{va}: \strong{vulnerable} abundances matrix,
-#' - \code{t1}: values for 1st vulnerability index, describing the
-#'     proportion of observed species which are vulnerable,
-#' - \code{t2}: values for 2nd vulnerability index, describing the
-#'     community-mean percentile at the observed site,
-#' - \code{t3}: values for 3rd vulnerability index, describing the
-#'     safety margin as the deviation of community-mean upper climate
-#'     limits from the observed climate value.
+#' \describe{
+#'   \item{\code{v}}{\code{y} values at all sites in \code{spe}.}
+#'   \item{\code{ve}}{\code{y} values at all sites in \code{ybin}.}
+#'   \item{\code{vo}}{\strong{vulnerable} occurrences matrix.}
+#'   \item{\code{va}}{\strong{vulnerable} abundances matrix.}
+#'   \item{\code{t1}}{values for 1st vulnerability index, describing
+#'       the proportion of observed species which are vulnerable.}
+#'   \item{\code{t2}}{values for 2nd vulnerability index, describing
+#'       the community-mean percentile at the observed site.}
+#'   \item{\code{t3}}{values for 3rd vulnerability index, describing
+#'       the safety margin as the deviation of community-mean upper
+#'       \code{y} limits from the observed \code{y} value.}
+#' }
 #'
 #' @examples
 #' ## Load data

@@ -39,11 +39,15 @@
 #'
 #' - \code{v}: \code{y} values at all sites in \code{spe},
 #' - \code{ve}: \code{y} values at all sites in \code{ybin},
-#' - \code{vo}: vulnerable occurrences matrix,
-#' - \code{va}: vulnerable abundances matrix,
-#' - \code{t1}: values for 1st vulnerability index,
-#' - \code{t2}: values for 2nd vulnerability index,
-#' - \code{t3}: values for 3rd vulnerability index.
+#' - \code{vo}: \strong{vulnerable} occurrences matrix,
+#' - \code{va}: \strong{vulnerable} abundances matrix,
+#' - \code{t1}: values for 1st vulnerability index, describing the
+#'     proportion of observed species which are vulnerable,
+#' - \code{t2}: values for 2nd vulnerability index, describing the
+#'     community-mean percentile at the observed site,
+#' - \code{t3}: values for 3rd vulnerability index, describing the
+#'     safety margin as the deviation of community-mean upper climate
+#'     limits from the observed climate value.
 #'
 #' @examples
 #' ## Load data

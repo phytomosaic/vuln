@@ -42,7 +42,7 @@
      on.exit(par(op))
      ngrd  <- 23
      xlab  <- '\nElevation (m)'
-     ylab  <- '\nLatitude (°)'
+     ylab  <- '\nLatitude (\U00B0)'
      x1seq <- seq(min(data$x1),max(data$x1),length=ngrd)
      x2seq <- seq(min(data$x2),max(data$x2),length=ngrd)
      xgrid <- expand.grid(x1=x1seq, x2=x2seq)

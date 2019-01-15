@@ -138,6 +138,7 @@ sum(tab$MWMT_overlap < 0.75)/443 # 260 of 443 extended vs trunc niches
 sum(tab$CMD_overlap < 0.75)/443 # 262 of 443 extended vs trunc niches
 names(tab) <- c('Abbreviation','Species','MWMT_overlap','CMD_overlap',
                 'Relative_frequency')
+head(tab)
 write.csv(tab, './fig/S3_nicheoverlap.csv', row.names = FALSE)
 rm(cw, tab, crosswalk)
 

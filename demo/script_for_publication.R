@@ -40,10 +40,10 @@ m_cmd  <- bingrid(mex, field='cmd', nr=155, nc=200,
 
 
 ###   begin calculate vulnerability   ###############################
-# VI from 'truncated' niches based on point FIA data
+# from 'truncated' niches based on point FIA data
 vt1 <- vuln(spe, y=id$mwmt)
 vt2 <- vuln(spe, y=id$cmd)
-# VI from 'extended' niches based on rasterized CNALH herb. data
+# from 'extended' niches based on rasterized CNALH herb. data
 v1 <- vuln(spe, y=id$mwmt, ybin=m_mwmt)
 v2 <- vuln(spe, y=id$cmd,  ybin=m_cmd)
 
@@ -52,25 +52,25 @@ v2 <- vuln(spe, y=id$cmd,  ybin=m_cmd)
 # names of all climate variables under consideration:
 nm <- c('mat','mwmt','mcmt','td','map','msp','ahm','shm','ffp','pas',
         'emt','ext','eref','cmd','rh','rh_sm','hi')
-lab <- c( 'Latitude (°)',
-          'Longitude (°)',
-          'Mean annual temperature (°C)',
-          'Mean warmest-month temperature (°C)',
-          'Mean coldest-month temperature (°C)',
-          'Continentality (°C)',
+lab <- c( 'Latitude (\u00B0)',
+          'Longitude (\u00B0)',
+          'Mean annual temperature (\u00B0C)',
+          'Mean warmest-month temperature (\u00B0C)',
+          'Mean coldest-month temperature (\u00B0C)',
+          'Continentality (\u00B0C)',
           'Mean annual precipitation (mm)',
           'Mean summer precipitation (mm)',
           'Annual heat moisture index (unitless)',
           'Summer heat moisture index (unitless)',
           'Frost-free period (d)',
           'Precipitation as snow (mm)',
-          '30-y extreme minimum temperature (°C)',
-          '30-y extreme maximum temperature (°C)',
+          '30-y extreme minimum temperature (\u00B0C)',
+          '30-y extreme maximum temperature (\u00B0C)',
           'Reference evaporation (mm)',
           'Climatic moisture deficit (mm)',
           'Mean annual relative humidity (%)',
           'Mean warm-season relative humidity (%)',
-          'Summer heat index (°C)')
+          'Summer heat index (\u00B0C)')
 lab <- enc2utf8(lab)
 
 ### Appendix S1: summary statistics of raw climate data
@@ -85,7 +85,7 @@ tab <- data.frame(
      lab,
      t(sapply(cli, function(x)
           round(c(min=min(x,na.rm=T), max=max(x,na.rm=T)),1))),
-     t(sapply(cli, describe, digits = 1, na.rm=T))
+     t(sapply(cli, describe))
 )
 tab <- tab[,!colnames(tab) %in% c('n','NAs','sem','var')]
 tab <- cbind(abbrev=dimnames(tab)[[1]], tab)
@@ -150,12 +150,12 @@ pdf('./fig/S4_nichebreadth.pdf', wid=6.5, hei=6)
 set_par(6)
 par(mfrow=c(2,3), oma=c(0,1,3,0), mar=c(4,3,0,0), mgp=c(2.0,0.6,0))
 `f` <- function(...){ vuln:::plot_loess(..., ylab='Niche breadth') }
-f(d$p05,d$iqr,xlab=expression(italic(Q)*'(0.05) of MWMT (°C)'))
+f(d$p05,d$iqr,xlab=expression(italic(Q)*'(0.05) of MWMT (\u00B0C)'))
 mtext(expression(bolditalic(tau)=='0.05' ), 3, 1)
 mtext('MWMT', 2, 4, las=3, font=2)
-f(d$p50, d$iqr, xlab=expression(italic(Q)*'(0.50) of MWMT (°C)'))
+f(d$p50, d$iqr, xlab=expression(italic(Q)*'(0.50) of MWMT (\u00B0C)'))
 mtext(expression(bolditalic(tau)=='0.50' ), 3, 1)
-f(d$p95, d$iqr, xlab=expression(italic(Q)*'(0.95) of MWMT (°C)'))
+f(d$p95, d$iqr, xlab=expression(italic(Q)*'(0.95) of MWMT (\u00B0C)'))
 mtext(expression(bolditalic(tau)=='0.95' ), 3, 1)
 f(d$p05.1,d$iqr.1,xlab=expression(italic(Q)*'(0.05) of CMD (mm)'))
 mtext('CMD', 2, 4, las=3, font=2)
@@ -360,7 +360,8 @@ tmp <- tmp[!(is.na(x2.6[,3]) | is.na(id$mwmt)),]
 nr  <- length(v1$t1)
 
 ### Figure 5 - map future warming effects
-p  <- c('Current,  ','+0.5°C,  ','+1.0°C,  ','+2.5°C,  ','+3.6°C,  ')
+p  <- c('Current,  ', '+0.5\u00B0C,  ', '+1.0\u00B0C,  ',
+        '+2.5\u00B0C,  ', '+3.6\u00B0C,  ')
 nm <- colnames(tmp)
 mm <- theme(plot.margin=unit(c(1,1,1,1),'mm'),legend.position='none')
 pk <- which(nm %in% c('t1','t1.1','t1.2','t1.3','t1.4'))
@@ -408,7 +409,7 @@ tmp <- data.frame(warm = rep(c(0,0.5,1.0,2.5,3.6),3),
 #      compr='lzw+p', res=400)
 pdf('./fig/fig_06_veryvuln.pdf', wid=3.5, hei=3.5)
 ggplot(tmp, aes(warm,crit,group=v)) + lims(x=c(0,4),y=c(0,35)) +
-     labs(x='Warming scenario (°C)',
+     labs(x='Warming scenario (\u00B0C)',
           y='Percentage of very vulnerable\nU.S. communities') +
      geom_point() + geom_line(aes(linetype=v)) +
      theme_classic() +
@@ -421,7 +422,7 @@ ggplot(tmp, aes(warm,crit,group=v)) + lims(x=c(0,4),y=c(0,35)) +
      scale_linetype_manual(name='Critical values:', values=1:3,
                            labels=c(' >50% species vulnerable (V1)',
                                     ' >95th thermal percentile (V2)',
-                                    ' >0°C safety margin (V3)'))
+                                    ' >0\u00B0C safety margin (V3)'))
 dev.off()
 
 

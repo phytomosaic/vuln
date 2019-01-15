@@ -21,6 +21,8 @@
 #'
 #' @param xval specified x value to return quantile values.
 #'
+#' @param panels number of figure panels in `set_par`
+#'
 #' @param ... further arguments passed to other functions.
 #'
 #' @return
@@ -82,12 +84,10 @@
      text(xval, ht - (0.14 * ht), t2, cex=0.7)
      text(xval, ht - (0.21 * ht), t3, cex=0.7)
 }
-
-###################################################################
-### unexported utility functions:
-###################################################################
-
-`set_par` <- function (panels = 1, pty = 's', ...) {
+#' @export
+#' @rdname utils_plot
+`set_par` <- function (panels = 1, ...) {
+     pty <- 's'
      mgp <- c(2.5, 0.7, 0)
      mar <- c(4, 4, 1.2, 1)
      oma <- c(0, 0, 0, 0)
@@ -117,14 +117,16 @@
                       mgp = mgp, mar = mar, pty = pty, oma = oma,
                       bty = 'L', las = 1, cex.axis = 0.85, ...))
 }
-
+#' @export
+#' @rdname utils_plot
 `add_text` <- function (x, y, labels, bold = FALSE, ...) {
      if (bold) font <- 2 else font <- 1
      text(x = graphics::grconvertX(x, from = 'npc', to = 'user'),
           y = graphics::grconvertY(y, from = 'npc', to = 'user'),
           labels = labels, adj = 0, font = font, ...)
 }
-
+#' @export
+#' @rdname utils_plot
 `colvec` <- function (x, n = 99, alpha = 0.6, begin = 0.2, end = 0.9,
                       dir = 1, pal, ...) {
      if (is.factor(x)) {
@@ -136,7 +138,8 @@
      }
      pal[cut(as.numeric(x), breaks=length(pal), include.lowest=T)]
 }
-
+#' @export
+#' @rdname utils_plot
 `surfcol` <- function (x, ngrid, alpha = 0.6, begin = 0.2, end = 0.9,
                        dir = 1, pal, ...) {
      if (missing(pal)) {
@@ -150,7 +153,8 @@
                    x[-(nrow(x) - 1), -(ncol(x) - 1)]) / 4
      pal[cut(xavg, breaks = length(pal), include.lowest = T)]
 }
-
+#' @export
+#' @rdname utils_plot
 `plot_loess` <- function (x, y, col = '#00000040', lcol = '#FF0000BF',
                           cex=0.8, pch=16, las=1, bty='L', ...) {
      ow   <- getOption('warn')

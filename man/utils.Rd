@@ -4,6 +4,7 @@
 \alias{litetvi}
 \alias{quantileonly}
 \alias{percentileonly}
+\alias{describe}
 \title{Utility functions for vulnerability analysis}
 \usage{
 litetvi(spe, y, ybin, ...)
@@ -11,6 +12,8 @@ litetvi(spe, y, ybin, ...)
 quantileonly(spe, ybin, na.rm = TRUE, ...)
 
 percentileonly(spe, y, ybin, ...)
+
+describe(x, ...)
 }
 \arguments{
 \item{spe}{matrix or data.frame, species occurrences or abundances.}

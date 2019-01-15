@@ -5,6 +5,11 @@
 \alias{plot_d}
 \alias{txt_tau}
 \alias{txt_val}
+\alias{set_par}
+\alias{add_text}
+\alias{colvec}
+\alias{surfcol}
+\alias{plot_loess}
 \title{Utility functions for plotting conceptual figures}
 \usage{
 make_d(x, ...)
@@ -14,6 +19,19 @@ plot_d(d, plotd = FALSE, ...)
 txt_tau(e, tau = 0.95, ht, i, ...)
 
 txt_val(e1, e2, e3, xval = 18.5, ht, ...)
+
+set_par(panels = 1, ...)
+
+add_text(x, y, labels, bold = FALSE, ...)
+
+colvec(x, n = 99, alpha = 0.6, begin = 0.2, end = 0.9, dir = 1,
+  pal, ...)
+
+surfcol(x, ngrid, alpha = 0.6, begin = 0.2, end = 0.9, dir = 1,
+  pal, ...)
+
+plot_loess(x, y, col = "#00000040", lcol = "#FF0000BF", cex = 0.8,
+  pch = 16, las = 1, bty = "L", ...)
 }
 \arguments{
 \item{x}{vector of climate values at which a species occurs.}
@@ -35,6 +53,8 @@ txt_val(e1, e2, e3, xval = 18.5, ht, ...)
 \item{e1, e2, e3}{three ECDF objects.}
 
 \item{xval}{specified x value to return quantile values.}
+
+\item{panels}{number of figure panels in `set_par`}
 }
 \value{
 See below.

@@ -83,27 +83,24 @@
      gc()
      p00
 }
-
-###################################################################
-### unexported utility functions:
-###################################################################
-
-`describe` <- function (x, na.rm = TRUE, digits = 2, type = 1, ...) {
+#' @export
+#' @rdname utils
+`describe` <- function (x, ...) {
      if (!is.numeric(x)) {
           return(NULL)
      }
-     m <- mean(x, na.rm = na.rm)
-     s <- stats::sd(x, na.rm = na.rm)
-     v <- stats::var(x, na.rm = na.rm)
-     na <- sum(is.na(x))
-     n <- length(x) - na
-     se <- s/sqrt(n - 1)
-     cv <- ifelse(m != 0, s/m * 100, 0)
-     skw <- e1071::skewness(x, na.rm = na.rm, type = type)
-     krt <- e1071::kurtosis(x, na.rm = na.rm, type = type)
+     m   <- mean(x, na.rm = TRUE)
+     s   <- stats::sd(x, na.rm = TRUE)
+     v   <- stats::var(x, na.rm = TRUE)
+     na  <- sum(is.na(x))
+     n   <- length(x) - na
+     se  <- s/sqrt(n - 1)
+     cv  <- ifelse(m != 0, s/m * 100, 0)
+     skw <- e1071::skewness(x, na.rm = TRUE, type = 1)
+     krt <- e1071::kurtosis(x, na.rm = TRUE, type = 1)
      out <- data.frame(mean = m, sd = s, var = v, sem = se, cv = cv,
                        n = n, NAs = na, skw = skw, krt = krt)
-     out <- round(out, digits = digits)
+     out <- round(out, digits = 1)
      mode(out) <- 'numeric'
      return(out)
 }

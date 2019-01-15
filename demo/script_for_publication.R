@@ -11,7 +11,6 @@ require(vuln)
 require(ggplot2)
 require(grid)
 require(gridExtra)
-###   end preamble   ################################################
 
 
 ###   begin load data   #############################################
@@ -29,7 +28,6 @@ dim(unique(cbind(mex$lat,mex$lon)))[1]  # 46343 unique sites
 lab1 <- expression(italic(v[1]))
 lab2 <- expression(italic(v[2]))
 lab3 <- expression(italic(v[3]))
-###   end load data  ################################################
 
 
 ###   begin rasterize    ############################################
@@ -39,7 +37,6 @@ m_mwmt <- bingrid(mex, field='mwmt', nr=155, nc=200,
                   xmn=-177.9, xmx=-52.63, ymn=15.37, ymx=82.4)
 m_cmd  <- bingrid(mex, field='cmd', nr=155, nc=200,
                   xmn=-177.9, xmx=-52.63, ymn=15.37, ymx=82.4)
-###   end rasterize    ##############################################
 
 
 ###   begin calculate vulnerability   ###############################
@@ -49,7 +46,6 @@ vt2 <- vuln(spe, y=id$cmd)
 # VI from 'extended' niches based on rasterized CNALH herb. data
 v1 <- vuln(spe, y=id$mwmt, ybin=m_mwmt)
 v2 <- vuln(spe, y=id$cmd,  ybin=m_cmd)
-###   end calculate vulnerability   #################################
 
 
 ###   begin Appendix materials   ####################################
@@ -167,7 +163,6 @@ f(d$p50.1,d$iqr.1,xlab=expression(italic(Q)*'(0.50) of CMD (mm)'))
 f(d$p95.1,d$iqr.1,xlab=expression(italic(Q)*'(0.95) of CMD (mm)'))
 dev.off()
 rm(f, d, y)
-###   end Appendices material  ######################################
 
 
 ###   begin conceptual figure   #####################################
@@ -227,7 +222,6 @@ add_text(.05,.79,bquote(italic(v[3]) == -.(sprintf('%.2f',V3*-1))),
 mtext(text = 'b)', side = 3, adj = -0.25)
 dev.off()
 rm(x1,x2,x3,d1,d2,d3,nspecies,xi,tau1,tau2,tau3,q1,q2,q3,V1,V2,V3)
-###   end conceptual figure   #######################################
 
 
 ###   begin truncated vs extended niches   ##########################
@@ -259,7 +253,6 @@ dev.off()
 rm(f)
 # Conclusion: extended niches give generally lower V for all 3 indices
 #     and all 3 climate variables; MAE is acceptable.
-###   end truncated vs extended niches   ############################
 
 
 ###   begin plot nationwide vulnerability   #########################
@@ -299,7 +292,6 @@ grid.arrange(
 dev.off()
 # Conclusion: vulnerability generally greatest in Calif, Ariz,
 #     Georgia, for all 3 indices and all climate variables.
-###   end plot nationwide vulnerability   ##########################
 
 
 ###   begin vuln by elevation and latitude   #######################
@@ -331,7 +323,6 @@ qtmp <- data.frame(x1=tmp$elev, x2=tmp$lat, y=tmp$t23)[!isna,]
 persp_q95(fit_q95(qtmp), qtmp, zlab='\nV3',zlo=c(-750)) #; qlab('F)')
 dev.off()
 rm(isna, qtmp)
-###   end vuln by elevation and latitude   #########################
 
 
 ###   begin sensitivity analysis   #################################
@@ -347,11 +338,9 @@ dimnames(s) <- list(
 round(s,3)  ### result
 write.csv(s, './fig/zzz_sensitivity.csv')
 rm(s,s1,s2,s3,s4,m_cmd)
-###   end sensitivity analysis   ###################################
 
 
 ###   begin future scenarios analysis ( MWMT only )   #############
-
 #  add incremental warming....
 x0.5 <- litetvi(spe, (id$mwmt+0.5), m_mwmt, na.rm=T)
 x1.0 <- litetvi(spe, (id$mwmt+1.0), m_mwmt, na.rm=T)
@@ -401,7 +390,6 @@ p31 <- mmap(tmp, nm[pk[2]], '', titl[2], NA, .5, .7) + mm
 p32 <- mmap(tmp, nm[pk[3]], '', titl[3], NA, .5, .7) + mm
 p33 <- mmap(tmp, nm[pk[4]], '', titl[4], NA, .5, .7) + mm
 p34 <- mmap(tmp, nm[pk[5]], '', titl[5], NA, .5, .7) + mm
-
 # tiff('./fig/fig_05_warming.tif', wid=6.5, hei=7.5, units='in',
 #      compr='lzw+p', res=500)
 pdf('./fig/fig_05_warming.pdf', wid=6.5, hei=7.5)
@@ -411,7 +399,6 @@ pdf('./fig/fig_05_warming.pdf', wid=6.5, hei=7.5)
               textGrob(lab3,gp=gp),p30,p31,p32,p33,p34,
               ncol=3, heights=c(.1,1,1,1,1,1)))
 dev.off()
-
 
 ### Figure 6 - percentage of *very* vulnerable US communities
 tmp <- data.frame(warm = rep(c(0,0.5,1.0,2.5,3.6),3),
@@ -436,6 +423,6 @@ ggplot(tmp, aes(warm,crit,group=v)) + lims(x=c(0,4),y=c(0,35)) +
                                     ' >95th thermal percentile (V2)',
                                     ' >0°C safety margin (V3)'))
 dev.off()
-###   end future scenarios analysis   ##############################
+
 
 ###     END     ####################################################

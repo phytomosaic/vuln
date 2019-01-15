@@ -52,7 +52,7 @@
 #'
 #' @examples
 #' ## Load data
-#' \donttest{
+#' \dontrun{
 #' data(braun, package='ecole')
 #' spe <- braun$spe
 #' env <- braun$env

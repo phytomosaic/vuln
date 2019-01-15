@@ -62,7 +62,7 @@ Multidimensional vulnerability index, using truncated or extended
 }
 \examples{
 ## Load data
-#     require(ecole)
+\dontrun{
 data(braun, package='ecole')
 spe <- braun$spe
 env <- braun$env
@@ -74,12 +74,13 @@ f <- function(d, j='bio1', ...){
      cc <- c("#420A6899","#65156E99","#89226A99",
              "#AD305D99","#CC424899","#E75D2E99",
              "#F7821299","#FCAA0F99","#F6D64599")
-     plot(d$lat, d$lon, col=cc[cut(d[,j], breaks=9)], pch=16, main=j)
+     plot(d$lat, d$lon, col=cc[cut(d[,j],breaks=9)],pch=16,main=j)
 }
 par(mfrow=c(2,2), bty='L', las=1)
 f(d, 'bio1')
 f(d, 't1')
 f(d, 't2')
 f(d, 't3')
+}
 
 }

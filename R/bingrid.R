@@ -47,6 +47,7 @@
 #' # (mmap(x, 'Sepal.Length', alpha=1, name='Sepal length'))
 #' bin_sepal <- bingrid(x, nr=30, nc=50, field='Sepal.Length',
 #'                      xmn=-125,xmx=-75,ymn=20,ymx=55)
+#' require(raster)
 #' r <- raster(nrows=30, ncols=50,
 #'                     xmn=-125, xmx=-75, ymn=20, ymx=55)
 #' r[] <- 0
@@ -63,7 +64,7 @@
      hascol <- all(c('lat','lon','spp',field) %in% names(x))
      if (!hascol) stop('need columns `lat`,`lon`,`spp` and `field`')
      x <- by(data = x[, !colnames(x) %in% 'spp'],
-             IND = x[ ,'spp'],
+             INDICES = x[ ,'spp'],
              FUN = function(a) {
                   sp::coordinates(a) <- c('lon', 'lat')
                   raster::rasterize(
@@ -73,7 +74,8 @@
                                       ymn = ymn, ymx = ymx),
                        field = field,
                        fun = mean,
-                       na.rm = T)}, simplify=F)
+                       na.rm = TRUE)},
+             simplify = FALSE)
      x <- sapply(x, FUN = raster::getValues)
      class(x) <- c(class(x), 'bingrid')
      x

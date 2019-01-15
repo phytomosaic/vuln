@@ -84,7 +84,7 @@
           f <- ks::kde(x=x, gridsize=ngrid)
           persp(f$estimate, xlab=f$names[1], ylab=f$names[2],
                 zlab='Prob. density',
-                col=ecole::surfcol(f$estimate, ngrid=ngrid, ...), ...)
+                col=surfcol(f$estimate, ngrid=ngrid, ...), ...)
      }
      if (pltype=='persp' & nc>2){
           message('more than 2 columns, using `pairs` not `persp`')
@@ -108,7 +108,7 @@
      if (pltype=='none'){
           return(o)
      }
-     ccc <- ecole::colvec(p, ...)
+     ccc <- colvec(p, ...)
      if (pltype=='cdf'){
           plot(z, p, pch=16, col=ccc, bty='l',
                las=1, xlab='Density values',
@@ -155,7 +155,7 @@
           if (missing(ngrid))  ngrid <- 44
           f <- ks::kcde(x=x, gridsize=ngrid)
           persp(f$estimate,
-                col=ecole::surfcol(f$estimate, ngrid=ngrid, ...), ...)
+                col=surfcol(f$estimate, ngrid=ngrid, ...), ...)
      }
      if (pltype=='persp' & nc>2){
           message('more than 2 columns, using `pairs` not `persp`')
@@ -176,7 +176,7 @@
      if (pltype=='none'){
           return(o)
      }
-     ccc <- ecole::colvec(p, ...)
+     ccc <- colvec(p, ...)
      if (pltype=='cdf'){
           auto_rowcol <- function(n = nc) {
                if (n <= 3)

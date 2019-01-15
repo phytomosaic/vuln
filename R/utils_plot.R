@@ -36,7 +36,7 @@
      mx   <- max(x)*1.1
      e    <- ecdf(x)         # ECDF
      xx   <- unique(sort(c(seq(mn,mx,.01), knots(e))))
-     col  <- ecole::colvec(e(xx)) # color by percentiles
+     col  <- colvec(e(xx)) # color by percentiles
      d    <- density(x, adjust=1.3, n=length(xx)) # EPDF
      d95  <- data.frame(x=d$x, y=d$y) # for polygon > 95th percentile
      d95  <- d95[d95$x > quantile(e,0.95), ]
@@ -135,6 +135,20 @@
                                   end = end, direction = dir)
      }
      pal[cut(as.numeric(x), breaks=length(pal), include.lowest=T)]
+}
+
+`surfcol` <- function (x, ngrid, alpha = 0.6, begin = 0.2, end = 0.9,
+                       dir = 1, pal, ...) {
+     if (missing(pal)) {
+          pal <- viridis::inferno(n = ngrid, alpha = alpha,
+                                  begin = begin, end = end,
+                                  direction = dir)
+     }
+     xavg <- (x[-1, -1] +
+                   x[-1, -(ncol(x) - 1)] +
+                   x[-(nrow(x) - 1), -1] +
+                   x[-(nrow(x) - 1), -(ncol(x) - 1)]) / 4
+     pal[cut(xavg, breaks = length(pal), include.lowest = T)]
 }
 
 `plot_loess` <- function (x, y, col = '#00000040', lcol = '#FF0000BF',

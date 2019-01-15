@@ -54,6 +54,7 @@ colnames(x)[colnames(x) == 'Species'] <- 'spp'
 # (mmap(x, 'Sepal.Length', alpha=1, name='Sepal length'))
 bin_sepal <- bingrid(x, nr=30, nc=50, field='Sepal.Length',
                      xmn=-125,xmx=-75,ymn=20,ymx=55)
+require(raster)
 r <- raster(nrows=30, ncols=50,
                     xmn=-125, xmx=-75, ymn=20, ymx=55)
 r[] <- 0

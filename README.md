@@ -13,6 +13,14 @@ This package permits calculating single-species vulnerabilities as well as three
 Species' occurrences indicate their realized niche, i.e., their tolerance to climate, disturbance, and other factors at those geographic locations.  Probability densities in niche space indicate habitat suitability.  If niche extremes (say, >95th percentile) indicate conditions beyond which a species will decline to local extinction, then occurrences near these extremes may be considered "vulnerable".  Mapped across landscapes, this will permit the targeting of locations where the greatest shifts in community composition are expected.
 
 
+## Run the entire script to reproduce Smith, Jovan and McCune (2019)
+
+Reproduce analyses from the publication.  Warning!  May take several minutes!
+```r
+source('./demo/script_for_publication.R')
+```
+
+
 ## Installation
 
 Install the package from github as follows:

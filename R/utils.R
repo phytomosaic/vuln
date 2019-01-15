@@ -104,3 +104,11 @@
      mode(out) <- 'numeric'
      return(out)
 }
+#' @export
+#' @rdname utils
+`mae` <- function (x, y, stdz = FALSE, na.rm = TRUE, ...) {
+     if (stdz)
+          denom <- diff(range(x, na.rm = na.rm))
+     else denom <- 1
+     mean(abs(x - y), na.rm = na.rm)/denom
+}

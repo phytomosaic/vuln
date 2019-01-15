@@ -1,20 +1,20 @@
-"","abbrev","lab","min","max","mean","sd","cv","skw","krt"
-"lat","lat","Latitude (째)",15.4,82.4,43,8.5,19.8,0.3,0.9
-"lon","lon","Longitude (째)",-177.9,-52.6,-99,21,-21.2,-0.6,0.2
-"mat","mat","Mean annual temperature (째C)",-20.6,29.4,8.5,6.2,73,0.1,0.4
-"mwmt","mwmt","Mean warmest-month temperature (째C)",0.5,35.7,19.8,4.6,23,0.1,-0.5
-"mcmt","mcmt","Mean coldest-month temperature (째C)",-37.7,28.1,-3.1,9,-289.9,-0.1,-0.1
-"td","td","Continentality (째C)",1.2,47.1,22.9,7.3,31.9,-0.1,-0.3
-"map","map","Mean annual precipitation (mm)",50,7823,1075.5,612,56.9,2.3,9.3
-"msp","msp","Mean summer precipitation (mm)",3,2895,438.6,209.8,47.8,1.1,7.3
-"ahm","ahm","Annual heat moisture index (unitless)",-119.9,642,21.7,21.6,99.5,10.2,165.6
-"shm","shm","Summer heat moisture index (unitless)",2.6,9389.6,88.8,228.4,257.2,11.1,203
-"ffp","ffp","Frost-free period (d)",0,365,163.7,68.1,41.6,1,0.6
-"pas","pas","Precipitation as snow (mm)",0,5052,156.5,207.9,132.9,4.3,43.9
-"emt","emt","30-y extreme minimum temperature (째C)",-64.2,21.8,-29,11.2,-38.8,0.5,-0.2
-"ext","ext","30-y extreme maximum temperature (째C)",16,51.3,36.5,3.9,10.7,-0.6,0.6
-"eref","eref","Reference evaporation (mm)",29,2249,851.6,338,39.7,0.6,-0.3
-"cmd","cmd","Climatic moisture deficit (mm)",0,1827,253.8,250.5,98.7,2.1,5.2
-"rh","rh","Mean annual relative humidity (%)",39,87,61.8,6.5,10.5,0.4,0.7
-"rh_sm","rh_sm","Mean warm-season relative humidity (%)",11,90,59.6,11.1,18.7,-1.1,1.6
-"hi","hi","Summer heat index (째C)",0.5,43.7,19.6,5.4,27.5,0.4,-0.2
+"Abbreviation","Variable","Minimum","Maximum","Mean","Standard_deviation","Coefficient_of_variation","Skewness","Kurtosis"
+"lat","Latitude (�)",15.4,82.4,43,8.5,19.8,0.3,0.9
+"lon","Longitude (�)",-177.9,-52.6,-99,21,-21.2,-0.6,0.2
+"mat","Mean annual temperature (캜)",-20.6,29.4,8.5,6.2,73,0.1,0.4
+"mwmt","Mean warmest-month temperature (캜)",0.5,35.7,19.8,4.6,23,0.1,-0.5
+"mcmt","Mean coldest-month temperature (캜)",-37.7,28.1,-3.1,9,-289.9,-0.1,-0.1
+"td","Continentality (캜)",1.2,47.1,22.9,7.3,31.9,-0.1,-0.3
+"map","Mean annual precipitation (mm)",50,7823,1075.5,612,56.9,2.3,9.3
+"msp","Mean summer precipitation (mm)",3,2895,438.6,209.8,47.8,1.1,7.3
+"ahm","Annual heat moisture index (unitless)",-119.9,642,21.7,21.6,99.5,10.2,165.6
+"shm","Summer heat moisture index (unitless)",2.6,9389.6,88.8,228.4,257.2,11.1,203
+"ffp","Frost-free period (d)",0,365,163.7,68.1,41.6,1,0.6
+"pas","Precipitation as snow (mm)",0,5052,156.5,207.9,132.9,4.3,43.9
+"emt","30-y extreme minimum temperature (캜)",-64.2,21.8,-29,11.2,-38.8,0.5,-0.2
+"ext","30-y extreme maximum temperature (캜)",16,51.3,36.5,3.9,10.7,-0.6,0.6
+"eref","Reference evaporation (mm)",29,2249,851.6,338,39.7,0.6,-0.3
+"cmd","Climatic moisture deficit (mm)",0,1827,253.8,250.5,98.7,2.1,5.2
+"rh","Mean annual relative humidity (%)",39,87,61.8,6.5,10.5,0.4,0.7
+"rh_sm","Mean warm-season relative humidity (%)",11,90,59.6,11.1,18.7,-1.1,1.6
+"hi","Summer heat index (캜)",0.5,43.7,19.6,5.4,27.5,0.4,-0.2

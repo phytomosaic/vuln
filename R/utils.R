@@ -9,6 +9,8 @@
 #'
 #' @param ybin data.frame, of class \code{'bingrid'}.
 #'
+#' @param na.rm logical, should NAs be removed?
+#'
 #' @param ... further arguments passed to other functions.
 #'
 #' @return
@@ -68,24 +70,40 @@
 #' @export
 #' @rdname utils
 `percentileonly` <- function(spe, y, ybin, ...){
-     spe <- as.matrix(spe)
+     spe   <- as.matrix(spe)
      spe[spe>0]  <- 1
      spe[spe==0] <- NA
-     nr   <- nrow(spe)
-     nc   <- ncol(spe)
-     v    <- p00 <- data.frame(spe * y)
+     nr    <- nrow(spe)
+     nc    <- ncol(spe)
+     v     <- p00 <- data.frame(spe * y)
      p00[] <- NA
-     vest <- data.frame(as.matrix(ybin))
-     e    <- apply(vest,2,function(x)ecdf(x))
+     vest  <- data.frame(as.matrix(ybin))
+     e     <- apply(vest,2,function(x)ecdf(x))
      for(j in 1:nc) p00[,j] <- e[[j]](v[,j])     # current %iles
      gc()
      p00
 }
-# `make_seq` <- function(x, ln=length(x), ...){
-#      mn <- min(x, na.rm=T)
-#      mx <- max(x, na.rm=T)
-#      bf <- diff(range(x, na.rm=T))*0.05 # add a 5% buffer
-#      xseq <- seq(mn-bf, mx+bf, len=ln)
-#      xseq
-# }
-####   END   ####
+
+###################################################################
+### unexported utility functions:
+###################################################################
+
+`describe` <- function (x, na.rm = TRUE, digits = 2, type = 1, ...) {
+     if (!is.numeric(x)) {
+          return(NULL)
+     }
+     m <- mean(x, na.rm = na.rm)
+     s <- stats::sd(x, na.rm = na.rm)
+     v <- stats::var(x, na.rm = na.rm)
+     na <- sum(is.na(x))
+     n <- length(x) - na
+     se <- s/sqrt(n - 1)
+     cv <- ifelse(m != 0, s/m * 100, 0)
+     skw <- e1071::skewness(x, na.rm = na.rm, type = type)
+     krt <- e1071::kurtosis(x, na.rm = na.rm, type = type)
+     out <- data.frame(mean = m, sd = s, var = v, sem = se, cv = cv,
+                       n = n, NAs = na, skw = skw, krt = krt)
+     out <- round(out, digits = digits)
+     mode(out) <- 'numeric'
+     return(out)
+}

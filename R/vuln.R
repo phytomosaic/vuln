@@ -52,7 +52,6 @@
 #'
 #' @examples
 #' ## Load data
-#' #     require(vuln)
 #' #     require(ecole)
 #' data(braun, package='ecole')
 #' spe <- braun$spe
@@ -61,11 +60,17 @@
 #' v <- vuln(spe, y=env$bio1) # w/o bingrid, may be 'truncated' niche
 #' ## Mapping
 #' d <- data.frame(env, t1 = gv(v,1), t2 = gv(v,2), t3 = gv(v,3))
-#' ecole::set_par(4)
-#' plot(d$lat, d$lon, col=ecole::colvec(d$bio1), pch=16, main='bio1')
-#' plot(d$lat, d$lon, col=ecole::colvec(d$t1),   pch=16, main='t1')
-#' plot(d$lat, d$lon, col=ecole::colvec(d$t2),   pch=16, main='t2')
-#' plot(d$lat, d$lon, col=ecole::colvec(d$t3),   pch=16, main='t3')
+#' f <- function(d, j='bio1', ...){
+#'      cc <- c("#420A6899","#65156E99","#89226A99",
+#'              "#AD305D99","#CC424899","#E75D2E99",
+#'              "#F7821299","#FCAA0F99","#F6D64599")
+#'      plot(d$lat, d$lon, col=cc[cut(d[,j], breaks=9)], pch=16, main=j)
+#' }
+#' par(mfrow=c(2,2), bty='L', las=1)
+#' f(d, 'bio1')
+#' f(d, 't1')
+#' f(d, 't2')
+#' f(d, 't3')
 #'
 #' @export
 #' @rdname vuln

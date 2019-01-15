@@ -77,7 +77,15 @@
      if (!isnum & !isalf){
           alf <- NA
      } else if (isnum & !isalf){
-          alf <- ecole::standardize(x[,field])
+          `standardize` <- function (x, ...) {
+               wasVector <- is.vector(x)
+               x <- as.matrix(x)
+               x <- (x - min(x, ...))/(max(x, ...) - min(x, ...))
+               if (wasVector)
+                    x <- as.vector(x)
+               x
+          }
+          alf <- standardize(x[,field])
      } else if (isnum & isalf){
           alf <- alpha
      }
@@ -133,7 +141,7 @@
                                     barwidth=rel(sizetxt)*4,
                                     barheight=rel(sizetxt)*0.5))
      } else if (colorscale == 'inferno'){
-          p <- p + scale_color_viridis(
+          p <- p + viridis::scale_color_viridis(
                name=name, na.value='transparent',
                guide=guide_colorbar(title.position='top',
                                     barwidth=rel(sizetxt)*4,

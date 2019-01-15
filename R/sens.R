@@ -31,9 +31,9 @@
      x0 <- litetvi(spe, xvec, ybin, na.rm=T) # baseline iteration
      `f` <- function(xvec, perc, ybin, ...){
           xx <- litetvi(spe,noise(z=xvec,perc=perc),ybin=ybin,na.rm=T)
-          c(mae(x0[,1],xx[,1], stdz=T),
-            mae(x0[,2],xx[,2], stdz=T),
-            mae(x0[,3],xx[,3], stdz=T))
+          c(mae(x0[,1], xx[,1], stdz=T),
+            mae(x0[,2], xx[,2], stdz=T),
+            mae(x0[,3], xx[,3], stdz=T))
      }
      Q <- matrix(nrow=nrep, ncol=3) # initiate sensitivity matrix
      for(i in 1:nrep){
@@ -41,4 +41,11 @@
           Q[i,] <- f(xvec, perc, ybin)  # add 5% uncertainty, get Q
      }
      Q
+}
+### unexported:
+`mae` <- function (x, y, stdz = FALSE, na.rm = TRUE, ...) {
+     if (stdz)
+          denom <- diff(range(x, na.rm = na.rm))
+     else denom <- 1
+     mean(abs(x - y), na.rm = na.rm)/denom
 }

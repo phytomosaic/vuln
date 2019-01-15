@@ -20,6 +20,8 @@ percentileonly(spe, y, ybin, ...)
 \item{ybin}{data.frame, of class \code{'bingrid'}.}
 
 \item{...}{further arguments passed to other functions.}
+
+\item{na.rm}{logical, should NAs be removed?}
 }
 \value{
 See below.

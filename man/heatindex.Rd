@@ -7,10 +7,12 @@
 heatindex(TC, RH, round = 3)
 }
 \arguments{
-\item{TC}{vector of temperature values (in Celsius)}
+\item{TC}{vector of temperature values (in Celsius).}
 
 \item{RH}{vector of relative humidity values (as a percentage
-[0,100])}
+[0,100]).}
+
+\item{round}{integer, number of digits to round to.}
 
 \item{...}{further arguments passed to other functions.}
 }

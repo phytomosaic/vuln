@@ -5,10 +5,12 @@
 #'     describing simultaneously hot and moist conditions, such as
 #'     those that may limit positive carbon balance for lichens.
 #'
-#' @param TC vector of temperature values (in Celsius)
+#' @param TC vector of temperature values (in Celsius).
 #'
 #' @param RH vector of relative humidity values (as a percentage
-#'     [0,100])
+#'     [0,100]).
+#'
+#' @param round integer, number of digits to round to.
 #'
 #' @param ... further arguments passed to other functions.
 #'

@@ -34,14 +34,14 @@
 #' @export
 #' @rdname utils_plot
 `make_d` <- function(x, ...){
-     mn   <- min(x)*0.9
-     mx   <- max(x)*1.1
-     e    <- ecdf(x)         # ECDF
+     mn   <- min(x, ...) * 0.9
+     mx   <- max(x, ...) * 1.1
+     e    <- ecdf(x)
      xx   <- unique(sort(c(seq(mn,mx,.01), knots(e))))
-     col  <- colvec(e(xx)) # color by percentiles
+     col  <- colvec(e(xx))            # color by percentiles
      d    <- density(x, adjust=1.3, n=length(xx)) # EPDF
      d95  <- data.frame(x=d$x, y=d$y) # for polygon > 95th percentile
-     d95  <- d95[d95$x > quantile(e,0.95), ]
+     d95  <- d95[d95$x > quantile(e, 0.95), ]
      d95  <- rbind(d95, c(min(d95$x), 0))
      list(e=e, d=d, d95=d95, col=col)
 }

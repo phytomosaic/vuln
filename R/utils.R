@@ -35,16 +35,16 @@
      v  <- p <- data.frame(spe * y)
      p[] <- NA
      vest <- data.frame(as.matrix(ybin))
-     e <- apply(vest,2,function(x)ecdf(x))
-     for(j in 1:nc) p[,j] <- e[[j]](v[,j])        # current %iles
+     e  <- apply(vest, 2, function(j) ecdf(j) )
+     for(j in 1:nc) p[,j] <- e[[j]](v[,j])            # current %iles
      p95 <- apply(vest, 2, quantile, probs=0.95, ...) # upper limit
-     vo <- p                     # percentiles of vulnerab spp
-     vo[vo<0.95] <- NA             # omit non-vulnerable
-     vo[vo>0]    <- 1              # vulnerable occurrences mx
-     t1 <- as.vector(rowSums(vo, ...)/rowSums(spe, ...))*100
-     t2 <- rowMeans(p,...)*100   # site avg of spp percentiles
+     vo <- p                        # percentiles of vulnerab spp
+     vo[vo<0.95] <- NA              # omit non-vulnerable
+     vo[vo>0]    <- 1               # vulnerable occurrences mx
+     t1 <- as.vector(rowSums(vo, ...) / rowSums(spe, ...)) * 100
+     t2 <- rowMeans(p,...) * 100    # site avg of spp percentiles
      vc <- sweep(spe, 2, p95, `*`)  # weighted UPPER tols (STIs)
-     t3 <- y - rowMeans(vc, ...)# devn of CWM from local MWMT
+     t3 <- y - rowMeans(vc, ...)    # devn of CWM from local MWMT
      cbind(t1=t1, t2=t2, t3=t3)
 }
 #' @export

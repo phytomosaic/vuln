@@ -1,6 +1,6 @@
 #####################################################################
 # Community Vulnerability from Species' Niche Constraints
-#  Rob Smith, smithr2@oregonstate.edu, Oregon State Univ, 15 Jan 2019
+#  Rob Smith, smithr2@oregonstate.edu, Oregon State Univ, 06 Aug 2019
 ##  CC-BY-SA 4.0 License (Creative Commons Attribution-ShareAlike 4.0)
 
 

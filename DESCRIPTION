@@ -1,6 +1,6 @@
 Package: vuln
 Title: Niche-based Vulnerability of Species and Communities
-Version: 0.0.03-2019-01-15
+Version: 0.0.04-2019-08-06
 Authors@R: person("Robert", "Smith", email = "smithr2@oregonstate.edu", role = c("aut", "cre"))
 Description: Metrics of niche-based vulnerability for single species and multi-species communities in a spatial context.
 License: GPL (>= 3) + file LICENSE
@@ -24,6 +24,6 @@ Imports:
     sfsmisc
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Author: Robert J. Smith <smithr2@oregonstate.edu>
 Maintainer: Robert J. Smith <smithr2@oregonstate.edu>

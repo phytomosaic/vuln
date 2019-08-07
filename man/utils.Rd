@@ -16,18 +16,25 @@ percentileonly(spe, y, ybin, ...)
 
 describe(x, ...)
 
-mae(x, y, stdz = FALSE, na.rm = TRUE, ...)
+mae(xx, yy, stdz = FALSE, na.rm = TRUE, ...)
 }
 \arguments{
 \item{spe}{matrix or data.frame, species occurrences or abundances.}
 
 \item{y}{vector, environmental values matching \code{ybin}.}
 
-\item{ybin}{data.frame, of class \code{'bingrid'}.}
+\item{ybin}{data.frame, of class \code{bingrid}.}
 
 \item{...}{further arguments passed to other functions.}
 
 \item{na.rm}{logical, should NAs be removed?}
+
+\item{x}{vector of values to evaluate in \code{describe}.}
+
+\item{xx, yy}{vectors of values to evaluate in \code{mae}}
+
+\item{stdz}{logical, standardize \code{mae} output by range of
+\code{xx}?}
 }
 \value{
 See below.

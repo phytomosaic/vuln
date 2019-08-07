@@ -1,7 +1,7 @@
-#' @title Utility functions for plotting conceptual figures
+#' @title Utility plotting functions
 #'
 #' @description
-#' Utility plotting functions.
+#' Utility functions for plotting conceptual figures.
 #'
 #' @param x vector of climate values at which a species occurs.
 #'
@@ -21,7 +21,34 @@
 #'
 #' @param xval specified x value to return quantile values.
 #'
-#' @param panels number of figure panels in `set_par`
+#' @param panels number of figure panels in `set_par`.
+#'
+#' @param y numeric, relative vertical position of text in `add_text`.
+#'
+#' @param labels character vector of text to plot in `add_text`.
+#'
+#' @param bold 	logical, should panel label be bold in `add_text`?
+#'
+#' @param n number of unique colors to be used in the palette.
+#'
+#' @param alpha alpha transparency in [0,1].
+#'
+#' @param begin hue in [0,1] at which the viridis colormap begins.
+#'
+#' @param end hue in [0,1] at which the viridis colormap ends.
+#'
+#' @param dir order of colors in the viridis colormap scale; if 1,
+#'     the default, colors are ordered from darkest to lightest; if
+#'     -1, then reversed.
+#'
+#' @param pal optional specification for a color palette; defaults to
+#'     \code{viridis::inferno} palette if missing.
+#'
+#' @param ngrid	number of grid cells in the matrix of values plotted
+#'     in `persp`.
+#'
+#' @param col,lcol,cex,pch,las,bty graphical parameters following
+#'     \code{\link[graphics]{par}} and \code{\link[graphics]{plot}}.
 #'
 #' @param ... further arguments passed to other functions.
 #'

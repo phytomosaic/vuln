@@ -10,7 +10,7 @@
 \alias{colvec}
 \alias{surfcol}
 \alias{plot_loess}
-\title{Utility functions for plotting conceptual figures}
+\title{Utility plotting functions}
 \usage{
 make_d(x, ...)
 
@@ -54,13 +54,40 @@ plot_loess(x, y, col = "#00000040", lcol = "#FF0000BF", cex = 0.8,
 
 \item{xval}{specified x value to return quantile values.}
 
-\item{panels}{number of figure panels in `set_par`}
+\item{panels}{number of figure panels in `set_par`.}
+
+\item{y}{numeric, relative vertical position of text in `add_text`.}
+
+\item{labels}{character vector of text to plot in `add_text`.}
+
+\item{bold}{logical, should panel label be bold in `add_text`?}
+
+\item{n}{number of unique colors to be used in the palette.}
+
+\item{alpha}{alpha transparency in [0,1].}
+
+\item{begin}{hue in [0,1] at which the viridis colormap begins.}
+
+\item{end}{hue in [0,1] at which the viridis colormap ends.}
+
+\item{dir}{order of colors in the viridis colormap scale; if 1,
+the default, colors are ordered from darkest to lightest; if
+-1, then reversed.}
+
+\item{pal}{optional specification for a color palette; defaults to
+\code{viridis::inferno} palette if missing.}
+
+\item{ngrid}{number of grid cells in the matrix of values plotted
+in `persp`.}
+
+\item{col, lcol, cex, pch, las, bty}{graphical parameters following
+\code{\link[graphics]{par}} and \code{\link[graphics]{plot}}.}
 }
 \value{
 See below.
 }
 \description{
-Utility plotting functions.
+Utility functions for plotting conceptual figures.
 }
 \details{
 Lightweight functions to plot conceptual figures.

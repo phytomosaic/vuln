@@ -7,7 +7,14 @@
 #'
 #' @param y vector, environmental values matching \code{ybin}.
 #'
-#' @param ybin data.frame, of class \code{'bingrid'}.
+#' @param ybin data.frame, of class \code{bingrid}.
+#'
+#' @param x vector of values to evaluate in \code{describe}.
+#'
+#' @param xx,yy vectors of values to evaluate in \code{mae}
+#'
+#' @param stdz logical, standardize \code{mae} output by range of
+#'      \code{xx}?
 #'
 #' @param na.rm logical, should NAs be removed?
 #'
@@ -106,9 +113,9 @@
 }
 #' @export
 #' @rdname utils
-`mae` <- function (x, y, stdz = FALSE, na.rm = TRUE, ...) {
+`mae` <- function (xx, yy, stdz = FALSE, na.rm = TRUE, ...) {
      if (stdz)
-          denom <- diff(range(x, na.rm = na.rm))
+          denom <- diff(range(xx, na.rm = na.rm))
      else denom <- 1
-     mean(abs(x - y), na.rm = na.rm)/denom
+     mean(abs(xx - yy), na.rm = na.rm)/denom
 }

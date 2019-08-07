@@ -44,8 +44,8 @@ m_cmd  <- bingrid(mex, field='cmd', nr=155, nc=200,
 vt1 <- vuln(spe, y=id$mwmt)
 vt2 <- vuln(spe, y=id$cmd)
 # from 'extended' niches based on rasterized CNALH herb. data
-v1 <- vuln(spe, y=id$mwmt, ybin=m_mwmt)
-v2 <- vuln(spe, y=id$cmd,  ybin=m_cmd)
+v1  <- vuln(spe, y=id$mwmt, ybin=m_mwmt)
+v2  <- vuln(spe, y=id$cmd,  ybin=m_cmd)
 
 
 ###   begin Appendix materials   ####################################

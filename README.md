@@ -5,7 +5,7 @@ Niche-based vulnerability of species and communities.
 
 ## What
 
-This package permits calculating single-species vulnerabilities as well as three metrics of multi-species community vulnerability.  Extensions from single to multiple environmental factors are provided. 
+This package permits calculating single-species vulnerabilities as well as three metrics of multi-species community vulnerability.  Extensions from single to multiple environmental factors are provided (under active development). 
 
 
 ## Why

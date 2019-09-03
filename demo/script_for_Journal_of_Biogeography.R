@@ -165,7 +165,7 @@ mtext('CMD', 2, 4, las=3, font=2)
 f(d$p50.1,d$iqr.1,xlab=expression(italic(Q)*'(0.50) of CMD (mm)'))
 f(d$p95.1,d$iqr.1,xlab=expression(italic(Q)*'(0.95) of CMD (mm)'))
 dev.off()
-rm(f, d, y)
+rm(f, d)
 
 
 ###   begin conceptual figure   #####################################

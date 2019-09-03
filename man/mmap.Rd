@@ -6,7 +6,7 @@
 \usage{
 mmap(x, field, name = field, title = "", alpha = NA, sizept = 1,
   sizetxt = 1, xlim = c(-122, -75), ylim = c(25, 49.5), bg = NA,
-  colorscale, ...)
+  colorscale, midval = 0.6, ...)
 }
 \arguments{
 \item{x}{data.frame of observations.}
@@ -34,7 +34,11 @@ transparent).}
 \item{colorscale}{character, one of \code{c('bw','bw2','inferno',
 'discretebw')} defining the color scale.}
 
-\item{...}{further arguments currently ignored.}
+\item{midval}{numeric, value at color scale midpoint when
+colorscale = 'bw2'.}
+
+\item{...}{further arguments passed to ggplot2 color scales (for
+example, transformations).}
 }
 \value{
 Returns or plots an object inheriting from class \code{'ggplot'}.

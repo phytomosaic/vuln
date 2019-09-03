@@ -28,7 +28,11 @@
 #' @param colorscale character, one of \code{c('bw','bw2','inferno',
 #'     'discretebw')} defining the color scale.
 #'
-#' @param ... further arguments currently ignored.
+#' @param midval numeric, value at color scale midpoint when
+#'      colorscale = 'bw2'.
+#'
+#' @param ... further arguments passed to ggplot2 color scales (for
+#'      example, transformations).
 #'
 #' @return
 #' Returns or plots an object inheriting from class \code{'ggplot'}.
@@ -59,93 +63,102 @@
 ### plot regional maps (continuous values)
 `mmap` <- function(x, field, name=field, title='', alpha=NA, sizept=1,
                    sizetxt=1, xlim=c(-122,-75), ylim=c(25,49.5),
-                   bg=NA, colorscale, ...){
-     hascoord <- ('lat' %in% names(x)) & ('lon' %in% names(x))
-     if (!hascoord) stop('need `lat` and `lon` in `x`')
-     eb <- element_blank()
-     isnum <- is.numeric(x[ ,field])
-     v  <- c('bw','bw2','inferno','discretebw')
-     if (!isnum){
-          message('values not numeric, using discrete scale')
-          colorscale <- 'discretebw'
-     } else if (isnum & missing(colorscale)){
-          colorscale <- 'bw'
-     } else {
-          colorscale <- v[pmatch(colorscale, v)]
-     }
-     isalf <- is.numeric(alpha)
-     if (!isnum & !isalf){
-          alf <- NA
-     } else if (isnum & !isalf){
-          `standardize` <- function (x, ...) {
-               wasVector <- is.vector(x)
-               x <- as.matrix(x)
-               x <- (x - min(x, ...))/(max(x, ...) - min(x, ...))
-               if (wasVector)
-                    x <- as.vector(x)
-               x
-          }
-          alf <- standardize(x[,field])
-     } else if (isnum & isalf){
-          alf <- alpha
-     }
-     p <- ggplot(x, aes(x=lon, y=lat)) + labs(x='',y='',title=title) +
-          guides(alpha=F) +
-          borders('state', colour='black', fill=bg,
-                  size=rel(sizetxt)*0.4) +
-          coord_map('albers', 37, 49.5, xlim=xlim, ylim=ylim) +
-          geom_point(aes_string(colour=field), alpha=alf,
-                     shape=16, size=rel(sizept)) +
-          theme_classic() +
-          theme(plot.margin = unit(c(-5,1,1,1),'mm'),
-                plot.title=element_text(hjust=0.5, vjust=-2,
-                                        size=rel(sizetxt)*1),
-                plot.background=eb,
-                panel.background=eb,
-                legend.background=eb,
-                legend.position=c(0.2,0.15),
-                legend.direction='horizontal',
-                legend.key.height=unit(0.03,'npc'),
-                legend.key.width=unit(0.02,'npc'),
-                legend.title=element_text(size=rel(sizetxt)*0.8),
-                legend.text=element_text(size=rel(sizetxt)*0.7),
-                axis.line=eb,
-                axis.ticks=eb,
-                axis.text=eb,
-                axis.title=eb)
-     if (colorscale == 'discretebw'){
-          p <- p +  scale_colour_manual(
-               name=name, na.value='transparent',
-               values=c('#00000003','#000000E6'),
-               guide=guide_legend(
-                    title.position='top',
-                    keywidth=1, keyheight=.7,
-                    override.aes=list(
-                         size=rel(sizept)*2.5,
-                         colour=c('#0000001A','#000000E6'))))
-     } else if (colorscale == 'bw'){
-          p <- p + scale_colour_gradient(
-               name=name, low='white', high='black',
-               na.value='transparent',
-               guide=guide_colorbar(title.position='top',
-                                    barwidth=rel(sizetxt)*4,
-                                    barheight=rel(sizetxt)*0.5))
-     } else if (colorscale == 'bw2'){
-          message('colorscale = `bw2` is for data in [0,100]')
-          p <- p + scale_colour_gradient2(
-               name=name, low='white', mid='grey', high='black',
-               midpoint=55, na.value='transparent',
-               labels=c('0','25','50','75','100'),
-               breaks = c(0, 25, 50, 75, 100),
-               guide=guide_colorbar(title.position='top',
-                                    barwidth=rel(sizetxt)*4,
-                                    barheight=rel(sizetxt)*0.5))
-     } else if (colorscale == 'inferno'){
-          p <- p + viridis::scale_color_viridis(
-               name=name, na.value='transparent',
-               guide=guide_colorbar(title.position='top',
-                                    barwidth=rel(sizetxt)*4,
-                                    barheight=rel(sizetxt)*0.5),
-               begin=0.1, end=0.9, option='B')
-     }
+                   bg=NA, colorscale, midval=0.60, ...){
+        hascoord <- ('lat' %in% names(x)) & ('lon' %in% names(x))
+        if (!hascoord) stop('need `lat` and `lon` in `x`')
+        eb <- element_blank()
+        isnum <- is.numeric(x[ ,field])
+        v  <- c('bw','bw2','inferno','discretebw')
+        if (!isnum){
+                message('values not numeric, using discrete scale')
+                colorscale <- 'discretebw'
+        } else if (isnum & missing(colorscale)){
+                colorscale <- 'bw'
+        } else {
+                colorscale <- v[pmatch(colorscale, v)]
+        }
+        isalf <- is.numeric(alpha)
+        if (!isnum & !isalf){
+                alf <- NA
+        } else if (isnum & !isalf){
+                `standardize` <- function (x) {
+                        (x - min(x, na.rm=T)) / (max(x, na.rm=T) - min(x, na.rm=T))
+                }
+                alf <- standardize(x[,field])
+        } else if (isnum & isalf){
+                alf <- alpha
+        }
+        p <- ggplot(x, aes(x=lon, y=lat)) + labs(x='',y='',title=title) +
+                guides(alpha=F) +
+                borders('state', colour='black', fill=bg,
+                        size=rel(sizetxt)*0.2) +
+                coord_map('albers', 37, 49.5, xlim=xlim, ylim=ylim) +
+                geom_point(aes_string(colour=field), alpha=alf,
+                           shape=16, size=rel(sizept)) +
+                theme_classic() +
+                theme(plot.margin = unit(c(-5,1,1,1),'mm'),
+                      plot.title=element_text(hjust=0.5,
+                                              vjust=-2,
+                                              size=rel(sizetxt)*1),
+                      plot.background=eb,
+                      panel.background=eb,
+                      legend.background=eb,
+                      legend.position=c(0.2,0.15),
+                      legend.direction='horizontal',
+                      legend.key.height=unit(0.03,'npc'),
+                      legend.key.width=unit(0.02,'npc'),
+                      legend.title=element_text(size=rel(sizetxt)*0.8),
+                      legend.text=element_text(size=rel(sizetxt)*0.7),
+                      axis.line=eb,
+                      axis.ticks=eb,
+                      axis.text=eb,
+                      axis.title=eb)
+        if (colorscale == 'discretebw') {
+                p <- p + scale_colour_manual(
+                        name=name,
+                        na.value='transparent',
+                        values=c('#00000003','#000000E6'),
+                        ... ,
+                        guide=guide_legend(
+                                title.position='top',
+                                keywidth=1, keyheight=.7,
+                                override.aes=list(
+                                        size=rel(sizept)*2.5,
+                                        colour=c('#0000001A',
+                                                 '#000000E6'))))
+        } else if (colorscale == 'bw') {
+                p <- p + scale_colour_gradient(
+                        name=name,
+                        low='white',
+                        high='black',
+                        na.value='transparent',
+                        ... ,
+                        guide=guide_colorbar(
+                                title.position='top',
+                                barwidth=rel(sizetxt)*4,
+                                barheight=rel(sizetxt)*0.5))
+        } else if (colorscale == 'bw2') {
+                p <- p + scale_colour_gradient2(
+                        name=name,
+                        low='white',
+                        mid='grey',
+                        high='black',
+                        midpoint=midval,
+                        na.value='transparent',
+                        ... ,
+                        guide=guide_colorbar(
+                                title.position='top',
+                                barwidth=rel(sizetxt)*4,
+                                barheight=rel(sizetxt)*0.5))
+        } else if (colorscale == 'inferno') {
+                p <- p + ggplot2::scale_color_viridis_c(
+                        name=name,
+                        na.value='transparent',
+                        ... ,
+                        guide=guide_colorbar(
+                                title.position='top',
+                                barwidth=rel(sizetxt)*4,
+                                barheight=rel(sizetxt)*0.5),
+                        begin=0.1, end=0.9, option='B')
+        }
 }

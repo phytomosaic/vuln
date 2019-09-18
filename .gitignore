@@ -4,3 +4,4 @@
 .Ruserdata
 _makefiles/**
 _data_virtualspecies/**
+inst/doc

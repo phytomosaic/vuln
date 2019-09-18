@@ -28,3 +28,7 @@ LazyData: true
 RoxygenNote: 6.1.1
 Author: Robert J. Smith <smithr2@oregonstate.edu>
 Maintainer: Robert J. Smith <smithr2@oregonstate.edu>
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

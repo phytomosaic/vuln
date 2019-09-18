@@ -1,0 +1,90 @@
+---
+title: \LARGE \textsc{Vulnerability Indices}
+subtitle: |
+   | \textnormal{Robert J. Smith}
+   | \textit{\hyperref[smithr2@oregonstate.edu]{smithr2@oregonstate.edu}}
+output:
+  pdf_document:
+    toc: no
+    latex_engine: pdflatex
+fontsize: 10pt
+header-includes:
+- \usepackage{hyperref} \hypersetup{pdfstartview={XYZ null null 1.00}, colorlinks = true, linkcolor = red, urlcolor = red}
+vignette: >
+  %\VignetteIndexEntry{Equations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Rationale
+
+We need a way to quantify how species in communities are collectively vulnerable to changing conditions.  Ideally, a solution would be data-driven, nonparametric, and would allow species' niches to be nonlinear, polymodal or asymmetrical in a way that realistically portrays the rich and individualistic responses of many species ([Whittaker 1967](#references)).  We have attempted a solution ([Smith et al. 2019](#references)) that satisfies these needs.
+
+## Estimate species' niches
+
+First, for each species, we calculate realized niche space as an empirical cumulative distribution function (ECDF).  For a vector *X* describing a continuous random environmental variable, the ECDF gives the proportion of observations less than or equal to any given value *x*, interpretable as a percentile:
+$$F_X (x)=P(X \leq x)$$
+
+The inverse CDF, or quantile function, yields the *x* value at a given percentile $\tau$ in the interval (0,1):
+$$Q(\tau)=F_X^{-1}(\tau)$$
+
+The special case of $Q(0.95)$ describes a species' uppermost tolerances, the 95th percentile extremes beyond which it is *vulnerable* to local extinction.  In fact, we can define a vulnerability indicator function $\phi$ that takes the value 1 if the environmental value $x_i$ at site *i* exceeds the 95th percentile of species *j*, and 0 otherwise:
+$$
+\phi = 
+\left\{
+\begin{array}{lll}
+      0 & if & x_i < Q_j(0.95) \\
+      1 & if & x_i \geq Q_j(0.95) \\
+\end{array} 
+\right.
+$$
+
+This indicator function states whether local environmental values have exceeded a species' critical upper limits.  Likewise, $Q_j(0.05)$ could be used if low values are biologically limiting.
+
+
+## Vulnerability indices
+
+
+### $\mathbf v_1$: vulnerable species percentage
+
+The first vulnerability index ($\mathbf v_1$) is defined here as the percentage of all co-occurring species that locally exceed their upper limits.  On a 0–100% scale, $\mathbf v_1$ is interpreted as the potential community-level effect of incrementally raising environmental values (e.g., warming).  Greater $\mathbf v_1$ values indicate greater vulnerability, and $\mathbf v_1 = 100\%$ indicates that *all* species are vulnerable.  The numerator describes the number of vulnerable species at a site, and the denominator describes the total number of species present.
+
+$$\mathbf{v_{1i}} = \frac{\sum_{j=1}^{n} a_{ij} \cdot \phi}{\sum_{j=1}^{n} a_{ij}} \cdot 100$$
+
+where $a_{ij}$ is the presence (0 or 1) of species *j* in site *i*,  $x_i$ is the environmental value of site *i*, $Q_j(0.95)$ is the 95th percentile environmental value from the set of all environments in which species *j* occurs (upper tolerance of species *j*), *n* is the total number of species observed over all sites, and  $\phi$ is the indicator function described above.
+
+
+### v2: community-mean percentile
+
+Rather than an index based on discrete cutoffs, an index based on average percentiles of all species at a given site would provide insight about the degree of vulnerability, applicable even to relatively less-vulnerable communities.  By this logic, we define a second vulnerability index ($\mathbf v_2$) as the community-mean of all species' percentiles at a given local environmental value, where higher values indicate greater average vulnerability.
+
+$$\mathbf{v_{2i}} = \frac{\sum_{j=1}^{n} a_{ij} \cdot F_j(x_i)}{\sum_{j=1}^{n} a_{ij}} \cdot 100$$
+
+where $a_{ij}$ is the presence (0 or 1) of species *j* in site *i*, $F_j(x_i)$ is the percentile of species *j* given environmental value $x_i$ at site *i*, and *n* is the total number of species we observed over all sites.
+
+
+### v3: safety margin
+
+Finally, a third vulnerability index ($\mathbf v_3$) is the "safety margin", defined as the deviation of local environmental values from community-mean upper tolerances (95th percentile values).  Positive $\mathbf v_3$ indicates that local conditions exceed average community upper tolerances (i.e., "vulnerable" communities), while negative values indicate that local conditions are less than average tolerances (i.e., communities with a margin of safety).  The magnitude of $\mathbf v_3$ indicates how far the average community upper tolerances depart from local conditions.
+
+$$\mathbf{v_{3i}} = x_i - \frac{\sum_{j=1}^{n} a_{ij} \cdot Q_j(0.95)}{\sum_{j=1}^{n} a_{ij}}$$
+
+where $a_{ij}$ is the presence (0 or 1) of species *j* in site *i*, $Q_j(0.95)$ is the 95th percentile climate value from the set of all climate values in which species *j* occurs (upper climate tolerance of species *j*),  $x_i$ is the climate value of site *i*, and *n* is the total number of species we observed over all sites.  Blonder et al. ([2017](#references)) refer to a similar measure as "community climate lag" when integrating change over time.
+
+
+## Extending the niche
+
+If a small study area does not contain the full range of climate conditions under which a species occurs, or if a species niche space is incompletely sampled, then estimated niches may appear "truncated".  To avoid this, it is probably a good idea to "extend" the niche by introducing supplemental information from beyond the study area.  Usually you will source this info from herbarium records, global database information, or else more extensively sampling environmental space.  This is important to do so prior to calculating vulnerability, since the vulnerability indices assume the fundamental niche was completely characterized!
+
+
+#### Further information and source code: 
+
+https://github.com/phytomosaic/vuln
+
+
+## References
+1.   Blonder, B., Moulton, D.E., Blois, J., Enquist, B.J., Graae, B.J., Macias-Fauria, M., \dots, Svenning, J.C. 2017. Predictability in community dynamics. *Ecology Letters* 20: 293–306.  
+
+1.	Smith, R.J., S. Jovan, and B. McCune. 2019. Climatic niche limits and community-level vulnerability of obligate symbioses. *Journal of Biogeography* xx: yy-zz. [doi:10.1111/jbi.13719](https://doi.org/10.1111/jbi.13719){target="_blank"}  
+
+1.	Whittaker, R.H. 1967. Gradient analysis of vegetation. *Biological Reviews* 49: 207–264.

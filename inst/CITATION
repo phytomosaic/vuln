@@ -1,0 +1,30 @@
+citHeader("To cite `vuln` in publications use:")
+
+citEntry(entry = "Article",
+         title        = paste("Climatic niche limits and",
+                              "community-level vulnerability of",
+                              "obligate symbioses"),
+         author       = personList(as.person("Robert J Smith"),
+                                   as.person("Sarah Jovan"),
+                                   as.person("Bruce McCune")),
+         journal      = "Journal of Biogeography",
+         year         = "2019",
+         volume       = "xx",
+         number       = "x",
+         pages        = "yy--zz",
+         # url          = "https://doi.org/10.1111/jbi.13719",
+         doi          = "10.1111/jbi.13719",
+
+         textVersion  =
+              paste("Robert J Smith, Sarah Jovan, Bruce McCune",
+                    "(2019).",
+                    "Climatic niche limits and community-level",
+                    "vulnerability of obligate symbioses.",
+                    "Journal of Biogeography, xx(x), yy-zz.",
+                    "doi: 10.1111/jbi.13719",
+                    "(URL: https://doi.org/10.1111/jbi.13719).")
+)
+
+citFooter(paste("We have invested a lot of time and effort in",
+                "creating the `vuln` package, please cite it when",
+                "using it for data analysis."))

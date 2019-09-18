@@ -1,7 +1,5 @@
-README
+The `vuln` package
 ================
-
-# vuln
 
 Niche-based vulnerability of species and communities.
 
@@ -14,25 +12,34 @@ Biogeography* xx: yy-zz.
 
 ## What
 
-This package permits calculating single-species vulnerabilities as well
-as three metrics of multi-species community vulnerability. Extensions
-from single to multiple environmental factors are provided (under active
+This package permits calculating three metrics of multi-species
+community vulnerability (as well as single-species vulnerabilities).
+Extensions from single to multiple environmental factors are provided
+(under active
 development).
 
 ## Why
 
+<div style="display: inline-block;">
+
+<img src="./img/splash.png" style="border:0; margin-right: 15px; margin-left: 15px;" width="33%" alt="" align="right">
+
 Species’ occurrences indicate their realized niche, i.e., their
 tolerance to climate, disturbance, and other factors at particular
 geographic locations. Probability densities in niche space indicate
-habitat suitability: a common pattern is many occurrences at central
-values and fewer at niche extremes. If niche extremes (say, \>95th
-percentile) indicate conditions beyond which a species will decline to
-local extinction, then occurrences very near these extremes may be
-defined as “vulnerable”.
+habitat suitability: a common pattern is that a species will have many
+occurrences at central values and very few at niche extremes. If niche
+extremes (say, \>95th percentile) indicate conditions beyond which a
+species will decline to local extinction, then occurrences very near
+these extremes may be defined as “vulnerable”.
 
 Mapped across landscapes, estimating joint vulnerability for many
 species simultaneously will permit the targeting of locations where the
-greatest shifts in community composition are expected. /
+greatest shifts in community composition are expected.
+
+</div>
+
+-----
 
 ## Installation
 
@@ -42,36 +49,10 @@ Install the package from github as follows:
 install.packages('devtools')
 devtools::install_github('phytomosaic/vuln')
 devtools::install_github('phytomosaic/ecole')
-```
-
-And please cite
-    as:
-
-``` r
 citation('vuln')
 ```
 
-    ## Warning in citation("vuln"): no date field in DESCRIPTION file of package
-    ## 'vuln'
-
-    ## 
-    ## To cite package 'vuln' in publications use:
-    ## 
-    ##   Robert Smith (2019). vuln: Niche-based Vulnerability of Species
-    ##   and Communities. R package version 0.0.04-2019-08-06.
-    ##   https://github.com/phytomosaic/vuln
-    ## 
-    ## A BibTeX entry for LaTeX users is
-    ## 
-    ##   @Manual{,
-    ##     title = {vuln: Niche-based Vulnerability of Species and Communities},
-    ##     author = {Robert Smith},
-    ##     year = {2019},
-    ##     note = {R package version 0.0.04-2019-08-06},
-    ##     url = {https://github.com/phytomosaic/vuln},
-    ##   }
-
-## Run the entire script to reproduce Smith, Jovan and McCune (2019)
+## I. Run the entire script to reproduce Smith, Jovan and McCune (2019)
 
 Reproduce analyses from the publication. Warning\! May take several
 minutes\!
@@ -80,129 +61,140 @@ minutes\!
 source('./demo/script_for_publication.R')
 ```
 
-## A minimal working example
+## II. A minimal working example
 
-### Load data
+#### Load data
 
-Get some spatial data, with species and environment:
-
-    ## Loading required package: vuln
-
-    ## Registered S3 method overwritten by 'crs':
-    ##   method         from
-    ##   predict.gsl.bs np
-
-    ## Loading required package: ecole
-
-    ## Loading required package: vegan
-
-    ## Loading required package: permute
-
-    ## Loading required package: lattice
-
-    ## This is vegan 2.5-5
-
-    ## 
-    ## Attaching package: 'ecole'
-
-    ## The following objects are masked from 'package:vuln':
-    ## 
-    ##     add_text, colvec, describe, mae, overlap, plot_loess, set_par,
-    ##     surfcol
+Get some spatial data, with species and environment. Here we use tree
+communities from E. Lucy Braun's landmark book *Deciduous Forests of
+Eastern North America*.
 
 ``` r
+require(vuln)
+require(ecole)
+?braun
 data(braun, package = 'ecole')
 spe <- braun$spe
 env <- braun$env
 ```
 
-### Vulnerability estimates
+#### Vulnerability estimates
 
-Calculate vulnerability
-    values:
+Calculate vulnerability values. Because in this example we use the same
+locations for both calibration (of niches) and estimation (of
+vulnerability), we get a message that niche estimates may be
+‘truncated’.
 
 ``` r
-v <- vuln(spe, y=env$bio1)  # w/o bingrid, may be 'truncated' niche
+v <- vuln(spe, y=env$bio1)
 ```
 
     ## ECDF from pointwise data: 347 sites, 123 species. Niche may be truncated.
 
     ##  variable 1 of 1
 
-This used the same locations for both calibration (of niches) and
-estimation (of vulnerability), therefore giving a message that your
-niche estimates may potentially be ‘truncated’.
-
-### Mapping
+#### Visualize
 
 Map vulnerability values (and original environmental values) in
 geographic space:
 
 ``` r
 d <- data.frame(env, t1 = gv(v,1), t2 = gv(v,2), t3 = gv(v,3))
+`f` <- function(xx) {
+     xx <- as.character(xx)
+     plot(d$lon, d$lat, col=ecole::colvec(d[,xx]), pch=16, main=xx,
+          xlab='Longitude', ylab='Latitude')
+}
 ecole::set_par(4)
-plot(d$lat, d$lon, col=ecole::colvec(d$bio1), pch=16, main='bio1')
-plot(d$lat, d$lon, col=ecole::colvec(d$t1),   pch=16, main='t1')
-plot(d$lat, d$lon, col=ecole::colvec(d$t2),   pch=16, main='t2')
-plot(d$lat, d$lon, col=ecole::colvec(d$t3),   pch=16, main='t3')
+f('bio1')
+f('t1')
+f('t2')
+f('t3')
 ```
 
 ![](README_files/figure-gfm/mapping-1.png)<!-- -->
 
-### Vulnerability estimates, permitting ‘extended’ niches
+According to this, tree communities are most vulnerable to increases in
+Mean Annual Temperature at the southern edge of E. Lucy Braun's study
+area.
 
-Alternatively, you can use potentially ‘extended’ niches from, e.g.,
-herbarium records or more extensive sampling throughout environmental
-space that more fully depict the realized niche:
+Since the study area may not encompass all realized niches, we can use
+another method to ‘extend’ the niches beyond the focal area.
+
+## III. Example using ‘extended’ niches
+
+Alternatively, you can use potentially ‘extended’ information that more
+fully depicts the realized niche. Usually you will source this info from
+e.g., herbarium records, or else more extensive sampling throughout
+environmental space (however, our example below still uses the same site
+info).
+
+#### Get environmental values for each occurrence observation
 
 ``` r
-# first, make species binary
-pa  <- (spe>0)*1
+pa <- (spe>0)*1 # convert species abundance matrix to binary pres/abs
 dimnames(pa) <- dimnames(spe)
 
-# next, get environmental values at each species occurrence, 
-#     then collect in long format
+# `dematrify` function to convert occurrences to 'long' format,
+#     is straight from Dave Roberts' labdsv::dematrify
 `dematrify` <- function (taxa, thresh = -999) {
-     # straight from Dave Roberts' labdsv::dematrify
      tmp <- which(taxa > thresh, arr.ind = TRUE)
-     ii <- dimnames(tmp)[[1]]
-     jj <- dimnames(taxa)[[2]][tmp[, 2]]
+     ii  <- dimnames(tmp)[[1]]
+     jj  <- dimnames(taxa)[[2]][tmp[, 2]]
      abu <- taxa[tmp]
      ord <- order(tmp[, 1], tmp[, 2])
      res <- data.frame(ii[ord], jj[ord], abu[ord])
      names(res) <- c("site", "spp", "value")
      return(res)
 }
+
+# finally, get environmental values at each occurrence
 x      <- dematrify(pa)
 x$lon  <- dematrify(pa*env$lon)$value
 x$lat  <- dematrify(pa*env$lat)$value
 x$bio1 <- dematrify(pa*env$bio1)$value
+```
 
-# bin to grid: aggregate observations within grid cells to moderate
-#    the effects of unequal sampling efforts
+#### Account for unequal sampling efforts
+
+Aggregate observations within grid cells to moderate the effects of
+unequal sampling efforts.
+
+``` r
 xrng <- range(x$lon)
 yrng <- range(x$lat)
 ybin <- bingrid(x, field = 'bio1', nr=10, nc=15, 
                 xmn=xrng[1], xmx=xrng[2], ymn=yrng[1], ymx=yrng[2])
+# here we use a grid of 10 rows x 15 columns across eastern N America
+#   choice of grid size will affect results
+```
 
-# calculate vulnerability values
-v <- vuln(spe, y=env$bio1, ybin=ybin)
+#### Finally, calculate vulnerability from the gridded values
+
+Calculate vulnerability values. Because in this example we supplied
+external information in `ybin`, we get a message that niche estimates
+are
+    ‘extended’.
+
+``` r
+v <- vuln(spe, y=env$bio1, ybin=ybin) # using *gridded values*
 ```
 
     ## ECDF from rasterized data: 150 sites, 123 species. Niche is extended.
 
     ##  variable 1 of 1
 
+#### Visualize
+
 ``` r
-# mapping
 d <- data.frame(env, t1 = gv(v,1), t2 = gv(v,2), t3 = gv(v,3))
 ecole::set_par(4)
-plot(d$lat, d$lon, col=ecole::colvec(d$bio1), pch=16, main='bio1')
-plot(d$lat, d$lon, col=ecole::colvec(d$t1),   pch=16, main='t1')
-plot(d$lat, d$lon, col=ecole::colvec(d$t2),   pch=16, main='t2')
-plot(d$lat, d$lon, col=ecole::colvec(d$t3),   pch=16, main='t3')
+f('bio1')
+f('t1')
+f('t2')
+f('t3')
 ```
 
-![](README_files/figure-gfm/runvuln2-1.png)<!-- -->
+![](README_files/figure-gfm/mapping2-1.png)<!-- -->
 
-Please contact `smithr2@oregonstate.edu` for updates.
+That's it\! Please contact `smithr2@oregonstate.edu` for updates.

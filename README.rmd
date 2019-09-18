@@ -24,7 +24,7 @@ This package permits calculating three metrics of multi-species community vulner
 
 <div style="display: inline-block;">
 
-<img src="./img/splash.png" style="border:0; margin-right: 15px; margin-left: 15px;" width="33%" alt="" align="right">
+<img src="./img/splash.png" style="border:0; margin-right: 15px; margin-left: 15px;" width="45%" alt="" align="right">
 
 Species' occurrences indicate their realized niche, i.e., their tolerance to climate, disturbance, and other factors at particular geographic locations.  Probability densities in niche space indicate habitat suitability: a common pattern is that a species will have many occurrences at central values and very few at niche extremes.  If niche extremes (say, >95th percentile) indicate conditions beyond which a species will decline to local extinction, then occurrences very near these extremes may be defined as "vulnerable".  
 

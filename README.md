@@ -22,7 +22,7 @@ development).
 
 <div style="display: inline-block;">
 
-<img src="./img/splash.png" style="border:0; margin-right: 15px; margin-left: 15px;" width="33%" alt="" align="right">
+<img src="./img/splash.png" style="border:0; margin-right: 15px; margin-left: 15px;" width="45%" alt="" align="right">
 
 Species’ occurrences indicate their realized niche, i.e., their
 tolerance to climate, disturbance, and other factors at particular

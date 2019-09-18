@@ -3,13 +3,9 @@ title: \LARGE \textsc{Vulnerability Indices}
 subtitle: |
    | \textnormal{Robert J. Smith}
    | \textit{\hyperref[smithr2@oregonstate.edu]{smithr2@oregonstate.edu}}
-output:
-  pdf_document:
-    toc: no
-    latex_engine: pdflatex
-fontsize: 10pt
 header-includes:
 - \usepackage{hyperref} \hypersetup{pdfstartview={XYZ null null 1.00}, colorlinks = true, linkcolor = red, urlcolor = red}
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Equations}
   %\VignetteEngine{knitr::rmarkdown}

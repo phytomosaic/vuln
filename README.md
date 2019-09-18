@@ -3,6 +3,11 @@
 Niche-based vulnerability of species and communities.
 
 
+## Citation
+
+Smith, R.J., S. Jovan, and B. McCune. 2019. Climatic niche limits and community-level vulnerability of obligate symbioses. *Journal of Biogeography* xx: yy-zz. [doi:10.1111/jbi.13719](https://doi.org/10.1111/jbi.13719)
+
+
 ## What
 
 This package permits calculating single-species vulnerabilities as well as three metrics of multi-species community vulnerability.  Extensions from single to multiple environmental factors are provided (under active development). 
@@ -10,7 +15,9 @@ This package permits calculating single-species vulnerabilities as well as three
 
 ## Why
 
-Species' occurrences indicate their realized niche, i.e., their tolerance to climate, disturbance, and other factors at those geographic locations.  Probability densities in niche space indicate habitat suitability.  If niche extremes (say, >95th percentile) indicate conditions beyond which a species will decline to local extinction, then occurrences near these extremes may be considered "vulnerable".  Mapped across landscapes, this will permit the targeting of locations where the greatest shifts in community composition are expected.
+Species' occurrences indicate their realized niche, i.e., their tolerance to climate, disturbance, and other factors at particular geographic locations.  Probability densities in niche space indicate habitat suitability: a common pattern is many occurrences at central values and fewer at niche extremes.  If niche extremes (say, >95th percentile) indicate conditions beyond which a species will decline to local extinction, then occurrences very near these extremes may be defined as "vulnerable".  
+
+Mapped across landscapes, estimating joint vulnerability for many species simultaneously will permit the targeting of locations where the greatest shifts in community composition are expected.
 
 
 ## Run the entire script to reproduce Smith, Jovan and McCune (2019)
@@ -27,6 +34,7 @@ Install the package from github as follows:
 ```r
 install.packages('devtools')
 devtools::install_github('phytomosaic/vuln')
+citation('vuln')
 ```
 
 
